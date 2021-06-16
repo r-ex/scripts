@@ -61,7 +61,6 @@ void function HoverTankFlyToNode( HoverTank hoverTank, entity node )
     hoverTank.flightMover.NonPhysicsMoveTo( node.GetOrigin(), HOVER_TANK_DURATION, 10, 10)
     wait HOVER_TANK_DURATION
 
-
 }
 
 bool function HoverTankCanFlyPath( vector currentStartNode, entity currentEndNode )

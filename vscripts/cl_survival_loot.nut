@@ -1040,6 +1040,7 @@ bool function HasWeaponForTag( entity player, int tagId )
 			case eAttachmentTag.LMG:
 			case eAttachmentTag.SNIPER:
 			case eAttachmentTag.SMG:
+			case eAttachmentTag.LAUNCHER:
 				if ( weaponClassToTag[weaponData.lootTags[0]] == tagId )
 					return true
 				break
@@ -1547,6 +1548,9 @@ void function SetupSurvivalLoot( var categories )
 	// flip thru all the loot and find the ones that match the cats we want to display
 	foreach ( ref, data in SURVIVAL_Loot_GetLootDataTable() )
 	{
+		if ( !IsLootTypeValid( data.lootType ) )
+			continue
+
 		if ( !catTypes.contains( data.lootType ) )
 			continue
 

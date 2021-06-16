@@ -516,16 +516,15 @@ WeaponData
 		}
 	}
 
-	"ui8_enable"		"1"
+	"ui8_enable"		"0"
 	UiData8
 	{
-		"ui"							"ui/epg_ammo_counter"
-		"mesh"					"models/weapons/attachments/epg_rui_upper"
+		"ui"									"ui/pro_screen_panel"
+		"mesh"							"models/weapons/attachments/pro_screen_rui_upper"
 		Args
 		{
-			vis							player_zoomfrac
-			ammo						weapon_ammo
-			clipSize					weapon_clipSize
+			proValue							proscreen_int0
+			proOwnedByPlayer			proscreen_owner_is_player
 		}
 	}
 

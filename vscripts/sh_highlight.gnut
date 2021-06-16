@@ -7,6 +7,7 @@ global function Highlight_SetPingedHighlight
 global function Highlight_SetSonarHighlight
 
 global function SetSurvivalPropHighlight
+global function ClearSurvivalPropHighlight
 
 #if SERVER
 global function Highlight_SetFriendlyHighlight
@@ -967,6 +968,12 @@ void function SetSurvivalPropHighlight( entity ent, string assetName, bool isFoc
 	ent.Highlight_SetFunctions( contextId, fill, highlight.entityVisible, outline, radius, highlight.highlightId, highlight.afterPostProcess )
 	ent.Highlight_SetParam( contextId, 0, highlight.paramVecs[0] )
 	ent.Highlight_SetParam( contextId, 1, fillColor )
+}
+
+void function ClearSurvivalPropHighlight( entity ent, int contextId = HIGHLIGHT_CONTEXT_NEUTRAL )
+{
+	int highlightId = ent.Highlight_GetState( contextId )
+	ent.Highlight_SetFunctions( HIGHLIGHT_CONTEXT_NEUTRAL, HIGHLIGHT_FILL_NONE, true, HIGHLIGHT_OUTLINE_NONE, 1.0, highlightId, false )
 }
 
 #if CLIENT

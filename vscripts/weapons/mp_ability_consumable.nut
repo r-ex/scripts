@@ -54,7 +54,8 @@ global struct ConsumableInfo
 {
 	LootData&           lootData
 	float               chargeTime = UNSET_CHARGE_TIME
-	string 				chargeSoundName = ""
+	string              chargeSoundName = ""
+	string              cancelSoundName = ""
 	float               healAmount
 	float               shieldAmount
 	float               ultimateAmount
@@ -191,6 +192,7 @@ void function Consumable_Init()
 			shieldLarge.shieldAmount = 100.0
 			shieldLarge.healCap = 0.0
 			shieldLarge.chargeSoundName = "Shield_Battery_Charge"
+			shieldLarge.cancelSoundName = ""
 			shieldLarge.modName = "shield_large"
 		}
 		file.consumableTypeToInfo[ eConsumableType.SHIELD_LARGE ] <- shieldLarge
@@ -204,6 +206,7 @@ void function Consumable_Init()
 			shieldSmall.shieldAmount = 25.0
 			shieldSmall.healCap = 0.0
 			shieldSmall.chargeSoundName = "Shield_Battery_Charge_Short"
+			shieldSmall.cancelSoundName = ""
 			shieldSmall.modName = "shield_small"
 		}
 		file.consumableTypeToInfo[ eConsumableType.SHIELD_SMALL ] <- shieldSmall
@@ -216,6 +219,7 @@ void function Consumable_Init()
 			healthLarge.healAmount = 100.0
 			healthLarge.shieldAmount = 0.0
 			healthLarge.chargeSoundName = "Health_Syringe_Charge"
+			healthLarge.cancelSoundName = ""
 			healthLarge.modName = "health_large"
 		}
 		file.consumableTypeToInfo[ eConsumableType.HEALTH_LARGE ] <- healthLarge
@@ -228,6 +232,7 @@ void function Consumable_Init()
 			healthSmall.healAmount = 25.0
 			healthSmall.shieldAmount = 0.0
 			healthSmall.chargeSoundName = "Health_Syringe_Charge_Short"
+			healthSmall.cancelSoundName = ""
 			healthSmall.modName = "health_small"
 		}
 		file.consumableTypeToInfo[ eConsumableType.HEALTH_SMALL ] <- healthSmall
@@ -240,7 +245,8 @@ void function Consumable_Init()
 			ultimateBattery.healAmount = 0
 			ultimateBattery.healTime = 0.0
 			ultimateBattery.lootData = SURVIVAL_Loot_GetLootDataByRef( "health_pickup_ultimate" )
-			ultimateBattery.chargeSoundName = "Ult_Acc_Charge" //put name of charge sound event in between quotation marks
+			ultimateBattery.chargeSoundName = "Ult_Acc_Charge"
+			ultimateBattery.cancelSoundName = ""
 			ultimateBattery.modName = "ultimate_battery"
 		}
 		file.consumableTypeToInfo[ eConsumableType.ULTIMATE ] <- ultimateBattery
@@ -426,6 +432,8 @@ void function OnWeaponActivate_Consumable( entity weapon )
 	{
 		Consumable_CancelHeal( weapon.GetOwner() )
 	}
+	
+	Chroma_ConsumableBegin( weapon, info )
 #endif // CLIENT
 
 	#if SERVER
@@ -507,6 +515,37 @@ void function OnWeaponDeactivate_Consumable( entity weapon )
 }
 
 #if CLIENT
+void function Consumable_DisplayProgressBar( entity player, entity weapon, int consumableRecoveryType )
+{
+	player.EndSignal( "OnDeath" )
+	player.EndSignal( "OnChargeEnd" )
+	player.EndSignal( "ConsumableDestroyRui" )
+
+	string consumableName = weapon.GetWeaponSettingString( eWeaponVar.printname )
+	asset hudIcon = weapon.GetWeaponSettingAsset( eWeaponVar.hud_icon )
+	float raiseTime = weapon.GetWeaponSettingFloat( eWeaponVar.raise_time )
+	float chargeTime = weapon.GetWeaponSettingFloat( eWeaponVar.charge_time )
+
+	var rui = CreateCockpitPostFXRui( $"ui/consumable_progress.rpak" )
+
+	RuiSetGameTime( rui, "healStartTime", Time() )
+	RuiSetString( rui, "consumableName", consumableName )
+	RuiSetFloat( rui, "raiseTime", raiseTime )
+	RuiSetFloat( rui, "chargeTime", chargeTime )
+	RuiSetImage( rui, "hudIcon", hudIcon )
+	RuiSetInt( rui, "consumableType", consumableRecoveryType )
+
+	OnThreadEnd(
+		function() : ( rui, player )
+		{
+			RuiDestroy( rui )
+		}
+	)
+
+	wait raiseTime + chargeTime
+}
+
+
 void function OnCreateChargeEffect_Consumable( entity weapon, int fxHandle )
 {
 	//printt( "Charge effect " + weapon + " " + fxHandle )
@@ -578,27 +617,29 @@ void function OnWeaponChargeEnd_Consumable( entity weapon )
 	Assert( currentMod != "", "No consumable mod on weapon" )
 	entity player = weapon.GetOwner()
 
-	if ( weapon.GetWeaponChargeFraction() < 1.0 )
+	int consumableType  = file.modNameToConsumableType[ currentMod ]
+	ConsumableInfo info = file.consumableTypeToInfo[ consumableType ]
+	string itemName     = info.lootData.ref
+
+	float chargeFracAtEnd = weapon.GetWeaponChargeFraction()
+
+	if ( chargeFracAtEnd < 1.0 )
 	{
 		Signal( player, "OnChargeEnd" )
 	}
 
 	#if CLIENT
-		if ( player != GetLocalViewPlayer() )
-			return
+	if ( player != GetLocalViewPlayer() )
+		return
 
-		if ( currentMod != "" ) // TODO: hope we get the above assert in dev, defensive fix here for now
+	if ( currentMod != "" ) //
+	{
+		if ( info.chargeSoundName != "" )
 		{
-			int consumableType = file.modNameToConsumableType[ currentMod ]
-			ConsumableInfo info = file.consumableTypeToInfo[ consumableType ]
-
-			if ( info.chargeSoundName != "" )
-			{
-				StopSoundOnEntity( player, info.chargeSoundName )
-			}
+			StopSoundOnEntity( player, info.chargeSoundName )
 		}
-	#endif // CLIENT
-
+	}
+	#endif
 
 	#if SERVER
 		ConsumablePersistentData useData = file.weaponPersistentData[ weapon ]
@@ -718,6 +759,27 @@ void function Consumable_UseItemByType( entity player, int consumableType )
 	ConsumableInfo info = file.consumableTypeToInfo[ consumableType ]
 
 	thread AddModAndFireWeapon_Thread( player, info.modName )
+}
+
+void function Consumable_HandleConsumableUseCommand( entity player, string consumableCommand )
+{
+	int consumableType = eConsumableType._count
+
+	if ( consumableCommand == "HEALTH_SMALL" )
+		consumableType = eConsumableType.HEALTH_SMALL
+	if ( consumableCommand == "HEALTH_LARGE" )
+		consumableType = eConsumableType.HEALTH_LARGE
+	if ( consumableCommand == "SHIELD_SMALL" )
+		consumableType = eConsumableType.SHIELD_SMALL
+	if ( consumableCommand == "SHIELD_LARGE" )
+		consumableType = eConsumableType.SHIELD_LARGE
+	if ( consumableCommand == "PHOENIX_KIT" )
+		consumableType = eConsumableType.COMBO_FULL
+
+	if ( consumableType == eConsumableType._count )
+		return
+
+	Consumable_UseItemByType( player, consumableType )
 }
 
 void function AddModAndFireWeapon_Thread( entity player, string modName )
@@ -898,6 +960,26 @@ void function DoHealScreenFX ( entity player )
 	} )
 
 	WaitFrame()
+}
+
+void function PlayConsumableUseChroma( entity weapon, ConsumableInfo info )
+{
+	EndSignal( weapon.GetOwner(), "EndChroma" )
+
+	float raiseTime = weapon.GetWeaponSettingFloat( eWeaponVar.raise_time )
+	float chargeTime = weapon.GetWeaponSettingFloat( eWeaponVar.charge_time )
+
+	Chroma_ConsumableBegin( weapon, info )
+
+	OnThreadEnd(
+		function() : ()
+		{
+			Chroma_ConsumableEnd()
+		}
+	)
+
+	wait raiseTime + chargeTime
+
 }
 
 void function Consumable_CancelHeal( entity player )

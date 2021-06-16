@@ -38,6 +38,7 @@ WeaponData
 	"charge_effect_1p"								"stim_window_viscous"
 	"charge_effect_attachment"						"FX_IMPACT"
 	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_ability_heal"
+	"OnWeaponAttemptOffhandSwitch"					"OnWeaponAttemptOffhandSwitch_ability_heal"
 	"OnWeaponChargeBegin"							"OnWeaponChargeBegin_ability_heal"
 	"OnWeaponChargeEnd"								"OnWeaponChargeEnd_ability_heal"
 	"OnWeaponRegenEnd"                              "OnWeaponRegenEndGeneric"

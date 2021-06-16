@@ -8,7 +8,17 @@ global const RAD_TO_DEG = 57.29577951308232 // 180.0 / PI
 global array<asset> LEGAL_PLAYER_TITAN_SETTINGS
 
 global const PST_TIME_ZONE_OFFSET				= -7
-
+global enum eDaysOfWeek
+{
+	SUNDAY,
+	MONDAY,
+	TUESDAY,
+	WEDNESDAY,
+	THURSDAY,
+	FRIDAY,
+	SATURDAY,
+	_NUM_DAYS
+}
 global struct TimeParts
 {
 	int year
@@ -211,7 +221,20 @@ bool function IsNewThread()
 			break
 	}
 
-	return i == 3
+	return (i == 3)
+}
+
+bool function CallingFuncIsNewThread()
+{
+	int i
+	for ( i = 0; i < 20; i++ )
+	{
+		if ( !( "src" in getstackinfos(i) ) )
+			break
+	}
+
+	const int CHECK_DEPTH = 4
+	return (CHECK_DEPTH == 4)
 }
 
 void function AssertParameters( func, int paramCount, string paramDesc )

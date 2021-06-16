@@ -5,8 +5,9 @@ global function WeaponSkin_GetWorldModel
 global function WeaponSkin_GetViewModel
 global function WeaponSkin_GetSkinName
 global function WeaponSkin_GetCamoIndex
-global function WeaponSkin_GetReactToKillsLevelCount
+global function WeaponSkin_GetHackyRUISchemeIdentifier
 global function WeaponSkin_DoesReactToKills
+global function WeaponSkin_GetReactToKillsLevelCount
 global function WeaponSkin_GetReactToKillsDataForLevel
 global function WeaponSkin_GetReactToKillsLevelIndexForKillCount
 global function WeaponSkin_GetSortOrdinal
@@ -156,6 +157,30 @@ void function SetupWeaponSkin( ItemFlavor skin )
 		}
 
 		fileLevel.weaponSkinLegendaryIndexMap[skin] <- weaponLegendaryIndexMap[worldModel]
+
+		//
+		if ( WeaponSkin_DoesReactToKills( skin ) )
+		{
+			for ( int levelIdx = 0; levelIdx < WeaponSkin_GetReactToKillsLevelCount( skin ); levelIdx++ )
+			{
+				WeaponReactiveKillsData rtked = WeaponSkin_GetReactToKillsDataForLevel( skin, levelIdx )
+				foreach ( asset fx in rtked.killFX1PList )
+					if ( fx != $"" )
+						PrecacheParticleSystem( fx )
+
+				foreach ( asset fx in rtked.persistentFX1PList )
+					if ( fx != $"" )
+						PrecacheParticleSystem( fx )
+
+				foreach ( asset fx in rtked.killFX3PList )
+					if ( fx != $"" )
+						PrecacheParticleSystem( fx )
+
+				foreach ( asset fx in rtked.persistentFX3PList )
+					if ( fx != $"" )
+						PrecacheParticleSystem( fx )
+			}
+		}
 	#endif
 }
 
@@ -244,6 +269,14 @@ int function WeaponSkin_GetCamoIndex( ItemFlavor flavor )
 }
 
 
+int function WeaponSkin_GetHackyRUISchemeIdentifier( ItemFlavor flavor )
+{
+	Assert( ItemFlavor_GetType( flavor ) == eItemType.weapon_skin )
+
+	return GetGlobalSettingsInt( ItemFlavor_GetAsset( flavor ), "hackyRUISchemeIdentifier" )
+}
+
+
 bool function WeaponSkin_DoesReactToKills( ItemFlavor flavor )
 {
 	Assert( ItemFlavor_GetType( flavor ) == eItemType.weapon_skin )
@@ -291,6 +324,28 @@ WeaponReactiveKillsData function WeaponSkin_GetReactToKillsDataForLevel( ItemFla
 		rtked.persistentFXAttachmentList.append( GetSettingsBlockString( persistentFXBlock, "attachment" ) )
 	}
 	return rtked
+}
+
+
+int function WeaponSkin_GetReactToKillsLevelIndexForKillCount( ItemFlavor flavor, int killCount )
+{
+	//
+	Assert( ItemFlavor_GetType( flavor ) == eItemType.weapon_skin )
+	Assert( WeaponSkin_DoesReactToKills( flavor ) )
+
+	var skinBlock = GetSettingsBlockForAsset( ItemFlavor_GetAsset( flavor ) )
+
+	var levelsArr = GetSettingsBlockArray( skinBlock, "featureReactsToKillsLevels" )
+	for ( int levelIndex = GetSettingsArraySize( levelsArr ) - 1; levelIndex >= 0; levelIndex-- )
+	{
+		var levelBlock = GetSettingsArrayElem( levelsArr, levelIndex )
+		if ( killCount >= GetSettingsBlockInt( levelBlock, "killCount" ) )
+		{
+			return levelIndex
+		}
+	}
+
+	return -1
 }
 
 
@@ -348,28 +403,6 @@ void function WeaponSkin_Apply( entity ent, ItemFlavor skin )
 	ent.SetCamo( camoIndex )
 }
 #endif // SERVER || CLIENT
-
-
-int function WeaponSkin_GetReactToKillsLevelIndexForKillCount( ItemFlavor flavor, int killCount )
-{
-	//
-	Assert( ItemFlavor_GetType( flavor ) == eItemType.weapon_skin )
-	Assert( WeaponSkin_DoesReactToKills( flavor ) )
-
-	var skinBlock = GetSettingsBlockForAsset( ItemFlavor_GetAsset( flavor ) )
-
-	var levelsArr = GetSettingsBlockArray( skinBlock, "featureReactsToKillsLevels" )
-	for ( int levelIndex = GetSettingsArraySize( levelsArr ) - 1; levelIndex >= 0; levelIndex-- )
-	{
-		var levelBlock = GetSettingsArrayElem( levelsArr, levelIndex )
-		if ( killCount >= GetSettingsBlockInt( levelBlock, "killCount" ) )
-		{
-			return levelIndex
-		}
-	}
-
-	return -1
-}
 
 
 int function WeaponSkin_GetSortOrdinal( ItemFlavor flavor )

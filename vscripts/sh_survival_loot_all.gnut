@@ -376,7 +376,6 @@ LootData function SURVIVAL_Loot_GetLootDataByRef( string ref )
 {
 	return file.lootData[ ref ]
 }
-
 bool function SURVIVAL_Loot_IsRefValid( string ref )
 {
 	return (ref in file.lootData)

@@ -26,7 +26,7 @@ const string DIRTY_BOMB_WARNING_SOUND 	= "weapon_vortex_gun_explosivewarningbeep
 
 const float DIRTY_BOMB_GAS_RADIUS = 256.0
 const float DIRTY_BOMB_GAS_DURATION = 12.5
-const float DIRTY_BOMB_DETECTION_RADIUS = 125.0
+const float DIRTY_BOMB_DETECTION_RADIUS = 140.0
 
 const float DIRTY_BOMB_THROW_POWER = 1.0
 const float DIRTY_BOMB_GAS_FX_HEIGHT = 45.0

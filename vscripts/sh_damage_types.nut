@@ -66,8 +66,13 @@ global enum eDamageSourceId
 	mp_weapon_vinson
 	mp_weapon_lstar
 	mp_weapon_g2
+	mp_weapon_smart_pistol
 	mp_weapon_r97
+	mp_weapon_epg
+	mp_weapon_defender
+	mp_weapon_smr
 	mp_weapon_dmr
+	mp_weapon_softball
 	mp_weapon_wingman
 	mp_weapon_semipistol
 	mp_weapon_autopistol
@@ -108,7 +113,8 @@ global enum eDamageSourceId
 
 	melee_wraith_kunai
 	mp_weapon_wraith_kunai_primary
-
+	
+	//
 
 	// Turret Weapons
 	mp_weapon_yh803
@@ -218,10 +224,8 @@ global enum eDamageSourceId
 	mp_titanweapon_xo16_vanguard
 	mp_weapon_arc_trap
 	mp_weapon_emp
-	mp_weapon_softball
 	mp_weapon_rocket_launcher
 	mp_weapon_mgl
-	mp_weapon_defender
 	mp_weapon_arc_launcher
 	core_overload
 	mp_titanweapon_stasis
@@ -504,6 +508,13 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.melee_pilot_emptyhanded ] 				= "#DEATH_MELEE",
 		[ eDamageSourceId.melee_pilot_arena ]		 				= "#DEATH_MELEE",
 		[ eDamageSourceId.melee_pilot_sword ] 						= "#DEATH_SWORD",
+		// todo: move to localization
+		[ eDamageSourceId.mp_weapon_epg ] 							= "EPG",
+		[ eDamageSourceId.mp_weapon_softball ] 						= "Softball",
+		[ eDamageSourceId.mp_weapon_smart_pistol ] 					= "Smart Pistol",
+		[ eDamageSourceId.mp_weapon_smr ] 							= "SMR",
+		[ eDamageSourceId.mp_weapon_defender ] 						= "Charge Rifle",
+		[ eDamageSourceId.mp_weapon_rocket_launcher ] 				= "Archer",
 		[ eDamageSourceId.melee_titan_punch ] 						= "#DEATH_TITAN_MELEE",
 		[ eDamageSourceId.melee_titan_punch_ion ] 					= "#DEATH_TITAN_MELEE",
 		[ eDamageSourceId.melee_titan_punch_tone ] 					= "#DEATH_TITAN_MELEE",

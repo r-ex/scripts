@@ -141,7 +141,7 @@ void function InitRespawnPlayer(entity player)
 	}
 	else {
 		// todo: set to actual start pos for staging --
-		origin = <3348, 34346, -26197>//GetEnt( "info_player_start" ).GetOrigin()
+		origin = < 26328, -6235, -27540 >//GetEnt( "info_player_start" ).GetOrigin()
 		angles = <21.5, 0.2, 0>//GetEnt( "info_player_start" ).GetAngles()
 	}
 	player.SetOrigin( origin )

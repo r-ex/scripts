@@ -148,7 +148,7 @@ void function OnGRXStateChanged()
 	array<var> panels = [
 		GetPanel( "CharactersPanel" ),
 		GetPanel( "ArmoryPanel" ),
-		//GetPanel( "PassPanel" ),
+		GetPanel( "PassPanel" ),
 		GetPanel( "StorePanel" ),
 		GetPanel( "LootPanel" ),
 		GetPanel( "ECPanel" ),

@@ -8,7 +8,7 @@ global function CreateGunRangeTargetsForRealm
 
 void function Staging_Area_Init()
 {
-    
+    PrecacheModel( $"mdl/industrial/gun_rack_arm_down.rmdl" )
 }
 
 void function RemoveStagingAreaEntsForRealm( int realm )

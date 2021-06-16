@@ -7,7 +7,7 @@ global function Bombardment_MortarBarrageDetCord
 
 void function Bombardment_Init()
 {
-    
+
 }
 
 entity function VerifyBombardmentWeapon( entity owner, string weapon )

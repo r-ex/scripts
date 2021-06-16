@@ -21,6 +21,10 @@ global function GRX_GetPlayerEdition
 global function GRX_IsOfferRestricted
 #endif
 
+#if R5DEV
+global function GetItemFlavorByGRXRef
+#endif
+
 #if SERVER || UI
 global function GRXCurrency_GetPlayerBalance
 global function QueueGRXOperation
@@ -258,6 +262,8 @@ struct FileStruct_LifetimeVM
 
 	#if R5DEV
 		int grxTimeDeltaMinutes = 0
+
+		string grxStorePreviewItem = ""
 	#endif
 }
 FileStruct_LifetimeVM& fileVM
@@ -270,6 +276,9 @@ struct FileStruct_LifetimeLevel
 	array<ItemFlavor>      packFlavorList
 	table<ItemFlavor, int> currencyIndexMap
 	table<int, ItemFlavor> grxIndexItemFlavorMap
+	#if R5DEV
+		table<string, ItemFlavor> grxRefItemFlavorMap
+	#endif
 
 	#if SERVER
 		table<entity, PlayerGRXScriptState> playerGRXStateMap
@@ -403,6 +412,9 @@ void function ShGRX_RegisterItemFlavor( ItemFlavor flavor )
 		flavor._____INTERNAL_grxIndex = GRX_RegisterItem( grxRef, flavor._____INTERNAL_grxMode )
 
 		fileLevel.grxIndexItemFlavorMap[flavor._____INTERNAL_grxIndex] <- flavor
+		#if R5DEV
+			fileLevel.grxRefItemFlavorMap[grxRef] <- flavor
+		#endif
 	}
 
 	#if UI
@@ -446,6 +458,14 @@ ItemFlavor function GetItemFlavorByGRXIndex( int index )
 	return fileLevel.grxIndexItemFlavorMap[ index ]
 }
 #endif
+
+#if SERVER || CLIENT || UI  && R5DEV 
+ItemFlavor function GetItemFlavorByGRXRef( string grxRef )
+{
+	return fileLevel.grxRefItemFlavorMap[ grxRef ]
+}
+#endif
+
 
 
 #if SERVER || CLIENT || UI
@@ -1909,6 +1929,17 @@ void function DEV_GRX_SetTimeDelta( int minutes )
 void function _DEV_GRX_SetTimeDelta( int minutes )
 {
 	fileVM.grxTimeDeltaMinutes = minutes
+	thread _Force_Refresh_Offers()
+}
+
+void function DEV_GRX_PreviewStoreItem( string grxRef )
+{
+	fileVM.grxStorePreviewItem = grxRef
+	thread _Force_Refresh_Offers()
+}
+
+void function _Force_Refresh_Offers()
+{
 	ClientCommand( "mtx_getOffersInterval 5" )
 	wait 6.0
 	ClientCommand( "mtx_getOffersInterval 300" )
@@ -1987,14 +2018,25 @@ void function HandleGRXOffersRefreshed( int offersState, array< GRXCodeOffer > c
 	foreach( GRXCodeOffer codeOffer in storeOffers )
 	{
 		if ( !IsValidItemFlavorGRXIndex( codeOffer.itemIdx ) )
+		{
+			printt( "!IsValidItemFlavorGRXIndex", codeOffer.itemIdx )
 			continue
+		}
+
+		ItemFlavor flav = GetItemFlavorByGRXIndex( codeOffer.itemIdx )
+
+		printt( "store", ItemFlavor_GetHumanReadableRef( flav ) )
 
 		if ( !("location" in codeOffer.attrs) )
 			continue
 
 		string storeLocation = codeOffer.attrs.location
 
-		ItemFlavor flav                   = GetItemFlavorByGRXIndex( codeOffer.itemIdx )
+		#if R5DEV
+			if ( fileVM.grxStorePreviewItem != "" )
+				flav = GetItemFlavorByGRXRef( fileVM.grxStorePreviewItem )
+		#endif
+
 		ItemFlavorPurchasabilityInfo ifpi = fileLevel.itemFlavorPurchasabilityInfoMap[flav]
 		if ( !(storeLocation in ifpi.locationToDedicatedStoreOffersMap) )
 			ifpi.locationToDedicatedStoreOffersMap[storeLocation] <- []

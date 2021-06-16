@@ -101,7 +101,6 @@ void function SURVIVAL_LootActions_InitShared()
 	action = RegisterLootAction( eLootAction.IGNORE )
 	action.title = ""
 
-
 	Assert( file.lootActionData.len() == eLootAction._count )
 
 }

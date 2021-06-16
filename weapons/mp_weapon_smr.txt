@@ -17,7 +17,12 @@ WeaponData
 	"aimassist_adspull_weaponclass"					"broad"
 	"fast_swap_to"									"0"
 	"leveled_pickup"								"1"
-	
+
+	"OnWeaponActivate"								"OnWeaponActivate_weapon_smr"
+	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_weapon_smr"
+	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_weapon_smr"
+	"OnClientAnimEvent"								"OnClientAnimEvent_weapon_smr"
+
 	"projectile_first_person_offset_fraction"		"0.5"
 
 	"projectile_drift_windiness"					"10"
@@ -97,8 +102,8 @@ WeaponData
 		"ammo_no_remove_from_clip"                      "0"
         "ammo_no_remove_from_stockpile"                 "1"
 
-		"damage_near_value"   							"50"
-		"damage_far_value"								"50"
+		"damage_near_value"   							"22"
+		"damage_far_value"								"22"
 		"damage_near_value_titanarmor"					"115"
 		"damage_far_value_titanarmor" 					"115"
 		"explosion_damage"								"15"
@@ -505,14 +510,6 @@ WeaponData
 			"primary_fire_does_not_block_sprint"			"1"
 			"crosshair_force_sprint_fade_disabled"          "1"
 		}
-		sp_s2s_settings
-		{
-			projectile_trail_effect_0 						"Rocket_Smoke_SMR_s2s"
-			"ammo_default_total"							"1500"
-			"ammo_stockpile_max"							"1500"
-
-			ammo_no_remove_from_stockpile					"1"
-		}
 	}
 
 	"ui1_enable"		"1"
@@ -559,7 +556,7 @@ WeaponData
 
 		Crosshair_1
 		{
-			"ui"						"ui/crosshair_titan_predator_close_range"
+			"ui"						"ui/crosshair_circle2"
 			"base_spread"				"5.0"
 			Args
 			{

@@ -177,7 +177,6 @@ void function AddSkydiveBoundaryVolume( entity ent )
 
 void function ForcedSkydiveTriggerThink( entity trigger )
 {
-	print("\n\n\nHOIHOHI\n\n\n")
 	// if ( GetCurrentPlaylistVarBool( "skydive_ziplines_enabled", true ) == false )
 	// {
 	// 	trigger.Destroy()

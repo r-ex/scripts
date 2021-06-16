@@ -132,7 +132,11 @@ void function InitWeaponScripts()
 	//	#endif
 
 	MpAbilityShifter_Init()
+	MpWeaponDefender_Init()
 	MpWeaponDmr_Init()
+	MpWeaponRocketLauncher_Init()
+	MpWeaponSmartPistol_Init()
+	SonarGrenade_Init()
 	MpWeaponSniper_Init()
 	MpWeaponLSTAR_Init()
 	MpWeaponEnergyAR_Init()

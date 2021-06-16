@@ -515,6 +515,8 @@ void function SCB_OnPlayerEntersMapZone( int zoneId, int zoneTier )
 {
 	entity player = GetLocalViewPlayer()
 
+	Chroma_SetPlayerZone( zoneId )
+
 	int ceFlags = player.GetCinematicEventFlags()
 	if ( ceFlags & (CE_FLAG_HIDE_MAIN_HUD | CE_FLAG_INTRO) )
 		return

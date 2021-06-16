@@ -254,18 +254,21 @@ Scripts:
 	weapons/mp_weapon_shotgun.nut
 	weapons/mp_weapon_sniper.nut
 	weapons/mp_weapon_thermite_grenade.nut
+	weapons/mp_weapon_smr.nut
 	weapons/mp_weapon_zipline.nut
 	weapons/mp_weapon_alternator_smg.nut
 	weapons/mp_weapon_softball.nut
+	weapons/mp_weapon_smart_pistol.nut
 	weapons/mp_weapon_defender.nut
 	weapons/mp_weapon_mdlspawner.nut
-
+	weapons/mp_weapon_rocket_launcher.nut
 	weapons/sh_deployable.gnut
 	weapons/sh_phase_shift.gnut
 	weapons/sh_smart_ammo.gnut
 	weapons/sh_sonar.gnut
 	weapons/sh_stim.gnut
 	weapons/mp_weapon_energy_shotgun.nut
+	weapons/mp_weapon_grenade_sonar.nut
 ]
 
 When: "SERVER || CLIENT"

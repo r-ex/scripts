@@ -1203,6 +1203,8 @@ void function DeployableMedic_HealVisualsEnabled( entity ent, int statusEffect, 
 	int fxID = GetParticleSystemIndex( FX_DRONE_MEDIC_HEAL_COCKPIT_FX )
 	file.healFxHandle = StartParticleEffectOnEntity( cockpit, fxID, FX_PATTACH_ABSORIGIN_FOLLOW, -1 )
 	EffectSetIsWithCockpit( file.healFxHandle, true )
+
+	Chroma_StartHealingDroneEffect()
 }
 
 void function DeployableMedic_HealVisualsDisabled( entity ent, int statusEffect, bool actuallyChanged )
@@ -1217,6 +1219,8 @@ void function DeployableMedic_HealVisualsDisabled( entity ent, int statusEffect,
 		return
 
 	EffectStop( file.healFxHandle, false, true )
+
+	Chroma_EndHealingDroneEffect()
 }
 
 bool function CanDeployHealDrone( entity player )

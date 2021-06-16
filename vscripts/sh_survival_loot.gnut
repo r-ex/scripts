@@ -11,6 +11,8 @@ global function SURVIVAL_Loot_GetHealthPickupRefFromType
 global function SURVIVAL_Loot_GetHealthKitDataFromStruct
 global function SURVIVAL_Loot_GetHealthPickupCategoryFromData
 global function SURVIVAL_Loot_GetTotalHealthItems
+global function SURVIVAL_Loot_RegisterConditionalCheck
+global function SURVIVAL_Loot_RunConditionalCheck
 global function IsAmmoInUse
 global function SetPlayerRequireLootType
 
@@ -268,6 +270,7 @@ global enum eAttachmentTag
 	LMG
 	SNIPER
 	SMG
+	LAUNCHER
 	ALL
 	BARREL
 }
@@ -279,6 +282,7 @@ global const table<string, int> weaponClassToTag = {
 	lmg = eAttachmentTag.LMG
 	sniper = eAttachmentTag.SNIPER
 	smg = eAttachmentTag.SMG
+	launcher = eAttachmentTag.LAUNCHER
 }
 
 global struct KitHealData
@@ -346,6 +350,7 @@ struct
 
 	table<int, HealthPickup> healthPickups
 	table<string,string> toggleAttachments
+	table<string, bool functionref( string, entity ) > conditionalLootChecks
 } file
 
 
@@ -868,6 +873,17 @@ int function SURVIVAL_Loot_GetHealthPickupCategoryFromData( HealthPickup pickup 
 	unreachable
 }
 
+void function SURVIVAL_Loot_RegisterConditionalCheck( string ref, bool functionref( string, entity ) conditionalCheck )
+{
+	Assert ( !( ref in file.conditionalLootChecks ), "Loot ref already has registered conditional check!" )
+	file.conditionalLootChecks[ ref ] <- conditionalCheck
+}
+
+bool function SURVIVAL_Loot_RunConditionalCheck( string ref, entity player )
+{
+	Assert( ref in file.conditionalLootChecks, "Loot ref does not have registered conditional function!" )
+	return file.conditionalLootChecks[ ref ]( ref, player )
+}
 
 string function GetAttachPointForAttachment( string attachmentName )
 {
@@ -946,37 +962,43 @@ string function GetWeaponAmmoType( string weaponName )
 	return ""
 }
 
+
 int function SURVIVAL_GetInventoryLimit( entity player )
 {
 	//printt("SURVIVAL_GetInventoryLimit sh_surv_loot")
+	int limit  = 0
 	int bpTier = EquipmentSlot_GetEquipmentTier( player, "backpack" )
 	switch ( bpTier )
 	{
 		case 0:
-			return SURVIVAL_BACKPACK_LIMIT
+			limit = SURVIVAL_BACKPACK_LIMIT
+			break
 
 		case 1:
-			return SURVIVAL_BACKPACK_LIMIT_SMALL
+			limit = SURVIVAL_BACKPACK_LIMIT_SMALL
+			break
 
 		case 2:
-			return SURVIVAL_BACKPACK_LIMIT_MEDIUM
+			limit = SURVIVAL_BACKPACK_LIMIT_MEDIUM
+			break
 
 		case 3:
 		case 4:
-			return SURVIVAL_BACKPACK_LIMIT_MAX
+			limit = SURVIVAL_BACKPACK_LIMIT_MAX
+			break
 
 		default:
 			Assert( false, "invalid backpack tier " + bpTier )
+			break
 	}
 
-	unreachable
+	return limit
 }
 
 int function SURVIVAL_GetMaxInventoryLimit( entity player )
 {
 	return SURVIVAL_BACKPACK_LIMIT_MAX
 }
-
 
 int function SURVIVAL_GetInventoryCount( entity player )
 {
@@ -3261,6 +3283,8 @@ string function GetStringForTagId( int tagId )
 			return "#TAG_SHOTGUN"
 		case eAttachmentTag.SMG:
 			return "#TAG_SMG"
+		case eAttachmentTag.LAUNCHER:
+			return "#TAG_LAUNCHER"
 
 		default:
 			Assert( false )

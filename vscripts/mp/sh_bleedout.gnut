@@ -281,9 +281,10 @@ bool function Bleedout_IsBleedoutLogicActive()
 
 bool function Bleedout_IsBleedingOut( entity player )
 {
+
 	if ( !IsValid( player ) )
 		return false
-	
+
 	if ( !player.IsPlayer() )
 		return false
 

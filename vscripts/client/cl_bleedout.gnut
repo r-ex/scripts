@@ -164,15 +164,19 @@ void function Bleedout_DisplayFirstAidProgressBar( entity playerToRes, float end
 	player.EndSignal( "Bleedout_StopFirstAid" )
 	playerToRes.EndSignal( "Bleedout_OnRevive" )
 
-	var rui = CreateCockpitRui( $"ui/bleedout_timer.rpak" )
+	var rui = CreateCockpitPostFXRui( $"ui/bleedout_timer.rpak" )
 	RuiSetString( rui, "text", text )
 	RuiSetGameTime( rui, "endTime", endTime )
 	RuiSetFloat( rui, "progressTime", progressTime )
+
+	Chroma_BeginRevive( progressTime )
 
 	OnThreadEnd(
 		function() : ( rui, playerToRes )
 		{
 			RuiDestroy( rui )
+
+			Chroma_EndRevive()
 
 			if ( IsValid( playerToRes ) && playerToRes.IsPlayer() )
 				BleedoutEndTimeChanged( playerToRes, 0.0, playerToRes.GetPlayerNetTime( "bleedoutEndTime" ), true )
@@ -255,6 +259,10 @@ void function ShowWoundedMarker( entity woundedPlayer, float endTime )
 			LootData lootData = EquipmentSlot_GetEquippedLootDataForSlot( woundedPlayer, "incapshield" )
 
 			RuiSetString( shieldRUI, "nameText", lootData.pickupString )
+
+			if ( incapShieldTier >= 4 )
+				RuiSetString( shieldRUI, "nameText", "#BLEEDOUT_USE_SELF_RES_TITLE" )
+
 			RuiSetBool( shieldRUI, "hasKOShield", true )
 			RuiSetInt( shieldRUI, "shieldTier", incapShieldTier )
 			RuiSetImage( shieldRUI, "shieldIcon", lootData.hudIcon )
@@ -508,4 +516,9 @@ void function ServerCallback_Bleedout_DownStateThirdPersonCameraSettings()
 	SetConVarFloat( "c_mindistance", 48.0 )
 	SetConVarFloat( "c_maxdistance", 48.0 )
 	SetConVarFloat( "cam_idealdist", 0.0 )
+	SetConVarToDefault( "cam_player_viewheight_scale" )
+	SetConVarToDefault( "c_thirdpersonshouldergetsviewpunch" )
+	SetConVarToDefault( "cam_pitchlock_on" )
+	SetConVarToDefault( "c_minyaw" )
+	SetConVarToDefault( "c_maxyaw" )
 }

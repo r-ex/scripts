@@ -148,7 +148,7 @@ void function OnShowSquad( var panel )
 			reportButton = Hud_GetChild( panel, "TeammateReport"+i )
 		}
 
-		RunClientScript( "UICallback_PopulateClientGladCard", elem, muteButton, mutePingButton, muteChatButton, i, Time(), eGladCardPresentation.FULL_BOX )
+		RunClientScript( "UICallback_PopulateClientGladCard", elem, muteButton, mutePingButton, muteChatButton, reportButton, inviteButton, i, Time(), eGladCardPresentation.FULL_BOX )
 		file.squadPanels[panel].cardsInitialized[elem] = true
 
 		i++

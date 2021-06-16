@@ -21,12 +21,20 @@ var function OnWeaponPrimaryAttack_weapon_smr( entity weapon, WeaponPrimaryAttac
 	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
 
 	entity weaponOwner = weapon.GetWeaponOwner()
-	vector bulletVec = ApplyVectorSpread( attackParams.dir, weaponOwner.GetAttackSpreadAngle() - 1.0 )
-	attackParams.dir = bulletVec
+	//vector bulletVec = ApplyVectorSpread( attackParams.dir, weaponOwner.GetAttackSpreadAngle() - 1.0 )
+	//attackParams.dir = bulletVec
 
 	if ( IsServer() || weapon.ShouldPredictProjectiles() )
 	{
-		entity missile = weapon.FireWeaponMissile( attackParams.pos, attackParams.dir, 1.0, DF_GIB | DF_EXPLOSION, DF_GIB | DF_EXPLOSION, false, PROJECTILE_PREDICTED )
+		WeaponFireMissileParams fireMissileParams
+		fireMissileParams.pos = attackParams.pos
+		fireMissileParams.dir = attackParams.dir
+		fireMissileParams.speed = 1
+		fireMissileParams.scriptTouchDamageType = damageTypes.projectileImpact
+		fireMissileParams.scriptExplosionDamageType = damageTypes.explosive
+		fireMissileParams.doRandomVelocAndThinkVars = false
+		fireMissileParams.clientPredicted = false
+		entity missile = weapon.FireWeaponMissile( fireMissileParams )
 		if ( missile )
 		{
 			#if SERVER
@@ -44,7 +52,15 @@ var function OnWeaponNpcPrimaryAttack_weapon_smr( entity weapon, WeaponPrimaryAt
 {
 	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
 
-	entity missile = weapon.FireWeaponMissile( attackParams.pos, attackParams.dir, 1.0, damageTypes.largeCaliberExp, damageTypes.largeCaliberExp, true, PROJECTILE_NOT_PREDICTED )
+		WeaponFireMissileParams fireMissileParams
+		fireMissileParams.pos = attackParams.pos
+		fireMissileParams.dir = attackParams.dir
+		fireMissileParams.speed = 4600
+		fireMissileParams.scriptTouchDamageType = damageTypes.projectileImpact
+		fireMissileParams.scriptExplosionDamageType = damageTypes.explosive
+		fireMissileParams.doRandomVelocAndThinkVars = false
+		fireMissileParams.clientPredicted = false
+		entity missile = weapon.FireWeaponMissile( fireMissileParams )
 	if ( missile && !weapon.HasMod( "sp_s2s_settings" ) )
 	{
 		EmitSoundOnEntity( missile, "Weapon_Sidwinder_Projectile" )

@@ -34,6 +34,8 @@ WeaponData
 
     "OnWeaponActivate"                              "OnWeaponActivate_Energy_AR"
     "OnWeaponDeactivate"                            "OnWeaponDeactivate_Energy_AR"
+	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_Energy_AR"
+	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_Energy_AR"
 
 	// Bolt info
 	"bolt_hitsize"									"0.0"

@@ -121,7 +121,7 @@ void function SURVIVAL_GiveMainWeapon( entity player, entity pickup, entity acti
 {
 	printt("!!! SURVIVAL_GiveMainWeapon !!!")
 	if(dropCurrentWeapon)
-		player.DropWeapon( activeWeapon ) // FIXXX??? DropWeapon looks retarded
+		player.DropWeapon( activeWeapon ) // FIXXX???
 
 	LootData data = SURVIVAL_Loot_GetLootDataByIndex( pickup.GetSurvivalInt() )
 	player.GiveWeapon( data.baseWeapon, WEAPON_INVENTORY_SLOT_ANY )
