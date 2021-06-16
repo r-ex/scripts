@@ -1,0 +1,33 @@
+
+WeaponData
+{
+    "allow_gibraltar_shield"                        "0"
+	"flyoutEnabled"									"0"
+
+    "OnWeaponActivate"								"OnWeaponActivate_weapon_melee_primary"
+    "OnWeaponDeactivate"							"OnWeaponDeactivate_weapon_melee_primary"
+
+	"allow_empty_fire"								"1"
+	"uses_ammo_pool"								"0"
+
+	"weaponType" 									"melee"
+
+	"melee_can_hit_humansized"						"1"
+	"melee_can_hit_titans"							"0"
+	"melee_raise_recovery_animtime_normal"			"0.75"
+	"melee_raise_recovery_animtime_quick"			"0.4"
+	"melee_range"									"60"
+
+	Mods
+	{
+		proto_door_kick
+		{
+			"melee_attack_animtime"     "1.3"
+			//"melee_lunge_time"        "*3.0"
+			"melee_anim_1p_number"      "3"
+			"melee_anim_3p"		        "ACT_GESTURE_MELEE_ATTACK3"
+			"impulse_force"   								"20000"
+		}
+	}
+}
+
