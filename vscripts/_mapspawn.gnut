@@ -207,8 +207,8 @@ void function CodeCallback_MapSpawn() // original script entry point
 	PrecacheModel( $"mdl/Humans/class/medium/pilot_medium_stim.rmdl" )
 	PrecacheModel( $"mdl/vehicle/hovership/hovership_platform_mp.rmdl" )
 
-    PrecacheWeapon( $"mp_weapon_melee_survival" )
-    PrecacheWeapon( $"mp_weapon_data_knife" )
+  PrecacheWeapon( $"mp_weapon_melee_survival" )
+  PrecacheWeapon( $"mp_weapon_data_knife" )
 	PrecacheWeapon( $"mp_weapon_jack_dknife" )
 	PrecacheWeapon( $"mp_weapon_mdlspawner" )
 	PrecacheWeapon( $"mp_weapon_alternator_smg" )
