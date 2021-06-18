@@ -355,6 +355,7 @@ void function Client_Init()
 	CLTrackingVision_Init()
 	CLPassiveAdrenaline_Init()
 	ClJumpPad_Init()
+	CLChroma_Init()
 }
 #endif // CLIENT
 

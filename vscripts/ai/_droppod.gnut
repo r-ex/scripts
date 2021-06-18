@@ -16,7 +16,13 @@ global function AirdropItems
 
 void function AirdropItems( vector origin, vector angles, array<string> contents, entity fxToStop, string animationName, entity owner, int skin, string sourceWeaponClassName )
 {
+	printt( "AirdropItems", "origin:", origin, "angles:", angles, "anim:", animationName, "srcWpnClass:", sourceWeaponClassName)
+	
+	entity dropPod = CreateDropPod( origin, angles, sourceWeaponClassName )
 
+	dropPod.SetSkin( skin )
+
+	LaunchAnimDropPod( dropPod, animationName, OriginToGround( origin ), angles )
 }
 
 function DropPod_Init()
@@ -115,10 +121,20 @@ function CheckPlayersIntersectingPod( pod, targetOrigin )
 	return false
 }
 
-entity function CreateDropPod( vector ornull origin = null, vector ornull angles = null )
+entity function CreateDropPod( vector ornull origin = null, vector ornull angles = null, string sourceWeaponClassName = "" )
 {
 	entity prop_dynamic = CreateEntity( "prop_dynamic" )
-	prop_dynamic.SetValueForModelKey( DROPPOD_MODEL )
+
+	// if( sourceWeaponClassName == "mp_ability_care_package" )
+	// {
+	// 	prop_dynamic.SetValueForModelKey( CARE_PACKAGE_AIRDROP_MODEL )
+	// }
+	// else {
+	// 	prop_dynamic.SetValueForModelKey( DROPPOD_MODEL )
+	// }
+
+	prop_dynamic.SetValueForModelKey( CARE_PACKAGE_AIRDROP_MODEL )
+
 	prop_dynamic.kv.contents = int( prop_dynamic.kv.contents ) & ~CONTENTS_TITANCLIP
 	prop_dynamic.kv.fadedist = -1
 	prop_dynamic.kv.renderamt = 255

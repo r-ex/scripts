@@ -141,15 +141,12 @@ void function InitRespawnPlayer(entity player)
 	}
 	else {
 		// todo: set to actual start pos for staging --
-		origin = < 26328, -6235, -27540 >//GetEnt( "info_player_start" ).GetOrigin()
-		angles = <21.5, 0.2, 0>//GetEnt( "info_player_start" ).GetAngles()
+		origin = < 26328, -6235, -27540 >
+		angles = <21.5, 0.2, 0>
 	}
 	player.SetOrigin( origin )
 	player.SetAngles( angles )
 
-	//thread RespawnPlayersInDropshipAtPoint(GetPlayerArray(), origin, angles)
-
-	//CPlayer.SetPlayerSettingsWithMods( player, DEFAULT_PILOT_SETTINGS, [] )
 	ItemFlavor character = GetDefaultItemFlavorForLoadoutSlot( ToEHI( player ), Loadout_CharacterClass() )//LoadoutSlot_GetItemFlavor( ToEHI( player ), Loadout_CharacterClass() )
 
 	// settings/player/mp/pilot_survival_gunner.rpak		Gibraltar
@@ -174,7 +171,7 @@ void function InitRespawnPlayer(entity player)
 		GivePassive( player, ePassives.PAS_OCTANE )
 		player.GiveOffhandWeapon( "melee_wraith_kunai", OFFHAND_MELEE )
 		player.GiveOffhandWeapon( "mp_ability_heal", OFFHAND_SPECIAL )
-		player.GiveOffhandWeapon( "mp_weapon_jump_pad", OFFHAND_INVENTORY )
+		player.GiveOffhandWeapon( "mp_ability_care_package", OFFHAND_INVENTORY )
 		player.GiveOffhandWeapon( CONSUMABLE_WEAPON_NAME, OFFHAND_SLOT_FOR_CONSUMABLES )
 		EnableOffhandWeapons( player )
 	
@@ -184,8 +181,6 @@ void function InitRespawnPlayer(entity player)
 	
 		player.SetHealth( 100 )
 	}
-
-
 
 }
 void function DEV_PDataInitForPlayer( entity player )
