@@ -111,7 +111,7 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 
 
 
-    thread InitRespawnPlayer(player)
+  thread InitRespawnPlayer(player)
 
 	CodeCallback_OnClientReloadConnectionCompleted(player)
 	//DEV_PDataInitForPlayer( player ) // this doesn't fully work as persistent data is never ready
@@ -119,20 +119,23 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 }
 
 void function InitRespawnPlayer(entity player)
-{    
-    wait 1.0
+{
+	if( IsAlive( player ) )
+		return
+	
+  wait 1.0
 	
 	SetTeam(player, 10)
 	PlayerMatchState_Set(player, ePlayerMatchState.NORMAL)
 	player.SetPlayerNetBool( "pingEnabled", true )
 
-
-
-    wait 1.0
+  wait 1.0
 	
 	vector origin
 	vector angles
-    DoRespawnPlayer( player, null )
+
+  DoRespawnPlayer( player, null )
+
 	if( GetCurrentPlaylistName() != "survival_training" && !IsLobby() )
 	{
 		origin = GetEnt( "info_player_start" ).GetOrigin()
@@ -144,6 +147,7 @@ void function InitRespawnPlayer(entity player)
 		origin = < 26328, -6235, -27540 >
 		angles = <21.5, 0.2, 0>
 	}
+
 	player.SetOrigin( origin )
 	player.SetAngles( angles )
 
@@ -165,14 +169,20 @@ void function InitRespawnPlayer(entity player)
 
 	if( !IsLobby() )
 	{
-		player.GiveWeapon( "mp_weapon_rspn101", WEAPON_INVENTORY_SLOT_ANY )
-		player.GiveWeapon( "mp_weapon_frag_grenade", WEAPON_INVENTORY_SLOT_ANY )
-		player.GiveWeapon( "mp_weapon_wraith_kunai_primary", WEAPON_INVENTORY_SLOT_PRIMARY_2 )
-		GivePassive( player, ePassives.PAS_OCTANE )
-		player.GiveOffhandWeapon( "melee_wraith_kunai", OFFHAND_MELEE )
-		player.GiveOffhandWeapon( "mp_ability_heal", OFFHAND_SPECIAL )
-		player.GiveOffhandWeapon( "mp_ability_care_package", OFFHAND_INVENTORY )
-		player.GiveOffhandWeapon( CONSUMABLE_WEAPON_NAME, OFFHAND_SLOT_FOR_CONSUMABLES )
+		// todo: just reset the inventory before respawning
+		try {
+			player.GiveWeapon( "mp_weapon_rspn101", WEAPON_INVENTORY_SLOT_ANY )
+			player.GiveWeapon( "mp_weapon_frag_grenade", WEAPON_INVENTORY_SLOT_ANY )
+			player.GiveWeapon( "mp_weapon_wraith_kunai_primary", WEAPON_INVENTORY_SLOT_PRIMARY_2 )
+			GivePassive( player, ePassives.PAS_OCTANE )
+			player.GiveOffhandWeapon( "melee_wraith_kunai", OFFHAND_MELEE )
+			player.GiveOffhandWeapon( "mp_ability_heal", OFFHAND_SPECIAL )
+			player.GiveOffhandWeapon( "mp_ability_care_package", OFFHAND_INVENTORY )
+			player.GiveOffhandWeapon( CONSUMABLE_WEAPON_NAME, OFFHAND_SLOT_FOR_CONSUMABLES )
+		} catch(error)
+		{
+
+		}
 		EnableOffhandWeapons( player )
 	
 		entity ultimateAbility = player.GetOffhandWeapon( OFFHAND_INVENTORY )
@@ -199,7 +209,9 @@ void function DEV_PDataInitForPlayer( entity player )
 
 void function RespawnOnDie(entity player, var damageInfo) 
 {
-    thread InitRespawnPlayer(player)
+	if( IsAlive( player ) )
+		return
+  thread InitRespawnPlayer(player)
 }
 
 void function AddCallback_OnWeaponAttack( void functionref( entity, entity, string, int, vector, vector ) callback )

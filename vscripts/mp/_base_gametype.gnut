@@ -797,7 +797,7 @@ void function PlayerOrNPCKilled( entity ent, var damageInfo )
 	}
 
 	// Respawn Kill INFECTION!!
-	if ( ent.IsPlayer() && attacker.IsPlayer() )
+	if ( ent.IsPlayer() && attacker.IsPlayer() && !DEV_ShouldIgnorePersistence() )
 	{
 		if ( ent.GetPersistentVar( "respawnKillInfected" ) && !attacker.GetPersistentVar( "respawnKillInfected" ) )
 			attacker.SetPersistentVar( "respawnKillInfected", true )
@@ -1076,6 +1076,9 @@ bool function GetPilotBotFlag()
 
 function DoRespawnPlayer( entity player, entity spawnPoint )
 {
+	if( IsAlive( player ) )
+		return
+
 	player.p.lastSpawnPoint = spawnPoint
 	player.RespawnPlayer( spawnPoint ) //This will send "OnRespawned" signal, killing the thread if started from PostDeathThread
 }
