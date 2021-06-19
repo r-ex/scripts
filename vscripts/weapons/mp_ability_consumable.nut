@@ -457,22 +457,29 @@ void function OnWeaponActivate_Consumable( entity weapon )
 		}
 	}
 
+	int consumableRecoveryType
 	//Setting color for progress bar rui
 	if ( file.consumableTypeToInfo[ consumableType ].healAmount > 0 )
 	{
 		if ( file.consumableTypeToInfo[ consumableType ].shieldAmount > 0 )
-			weapon.SetScriptInt0( eConsumableRecoveryType.COMBINED )
+			consumableRecoveryType = eConsumableRecoveryType.COMBINED
 		else
-			weapon.SetScriptInt0( eConsumableRecoveryType.HEALTH )
+			consumableRecoveryType = eConsumableRecoveryType.HEALTH
 	}
 	else if ( file.consumableTypeToInfo[ consumableType ].shieldAmount > 0 )
 	{
-		weapon.SetScriptInt0( eConsumableRecoveryType.SHIELDS )
+		consumableRecoveryType = eConsumableRecoveryType.SHIELDS
 	}
 	if ( file.consumableTypeToInfo[ consumableType ].ultimateAmount > 0 )
 	{
-		weapon.SetScriptInt0( eConsumableRecoveryType.ULTIMATE )
+		consumableRecoveryType = eConsumableRecoveryType.ULTIMATE
 	}
+
+	weapon.SetScriptInt0( consumableRecoveryType )
+
+	#if CLIENT
+	thread Consumable_DisplayProgressBar( weaponOwner, weapon, weapon.GetScriptInt0() )
+	#endif
 }
 
 void function OnWeaponDeactivate_Consumable( entity weapon )
