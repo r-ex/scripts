@@ -9,7 +9,7 @@
 - copy files from detours_r5 into game root for the appropriate build
 - download these scripts and copy them into `platform/scripts` so that you have folders such as `platform/scripts/vscripts`
 - add `+developer 1` to the launch params (currently located in platform/cfg/startup_debug.cfg)
-- launch game through r5launcher.exe
+- launch game through launcher.exe
 
 ## disclaimer
 
