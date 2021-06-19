@@ -42,9 +42,18 @@ bool function LootTypeHasAnyChanceToSpawn( string ref )
 	return true
 }
 
-void function SpawnLoot( string name, vector pos, bool idk )
+void function SpawnLoot( string name, vector origin, bool idk )
 {
+	// LootData ld = SURVIVAL_Loot_GetLootDataByRef( name )
+	// entity item = CreateEntity( "prop_survival" )
+	// item.SetValueForModelKey( ld.model )
+	// item.SetOrigin( origin )
+	// item.SetAngles( <0, 90, 0> )
+	// item.kv.solid = SOLID_VPHYSICS
+	// item.Solid()
+	// DispatchSpawn( item )
 
+	// SURVIVAL_Loot_SetHighlightForLoot( item, false, name )
 }
 
 string function SURVIVAL_GetWeightedItemFromGroup( string group )

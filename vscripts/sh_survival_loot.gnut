@@ -1431,12 +1431,20 @@ void function OnPropSurvivalCreate( entity prop )
 	SetCallback_CanUseEntityCallback( prop, SurvivalLoot_CanUseFunction )
 }
 
-void function SURVIVAL_Loot_SetHighlightForLoot( entity prop, bool isSelected )
+void function SURVIVAL_Loot_SetHighlightForLoot( entity prop, bool isSelected, string ref = "" )
 {
-	int index = prop.GetSurvivalInt()
+	LootData data
+	if( ref != "")
+	{
+		data = SURVIVAL_Loot_GetLootDataByRef( ref )
+	}
+	else {
+		int index = prop.GetSurvivalInt()
 
-	LootData data = SURVIVAL_Loot_GetLootDataByIndex( index )
-	string ref = data.ref
+		data = SURVIVAL_Loot_GetLootDataByIndex( index )
+	}
+
+	ref = data.ref
 	int lootType = data.lootType
 	int lootTier = data.tier
 

@@ -147,6 +147,9 @@ void function MDLSpawner_SpawnModel( )
 		player.EyePosition(), player.EyePosition() + 300.0 * player.GetViewVector(),
 		[ player ], TRACE_MASK_NPCWORLDSTATIC, TRACE_COLLISION_GROUP_NONE
 	)
+
+	// Dev_SpawnAllLootTypes( tr.endPos, <100, 100, 0>, <100, 100, 0>, 5 )
+
 	var model = file.model
 	printt( "spawning model", model )
 	PrecacheModel( model )
