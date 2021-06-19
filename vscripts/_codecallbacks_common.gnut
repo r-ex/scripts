@@ -114,8 +114,10 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
   thread InitRespawnPlayer(player)
 
 	CodeCallback_OnClientReloadConnectionCompleted(player)
-	//DEV_PDataInitForPlayer( player ) // this doesn't fully work as persistent data is never ready
 
+	// DEV_PDataInitForPlayer( player ) // this doesn't fully work as persistent data is never ready
+
+	UpdateCounts()
 }
 
 void function InitRespawnPlayer(entity player)
@@ -164,7 +166,7 @@ void function InitRespawnPlayer(entity player)
 	// settings/player/mp/pilot_survival_holopilot.rpak		Mirage
 
 	//player.SetPlayerSettingsWithMods( $"settings/player/mp/pilot_survival_stim.rpak", [ "enable_wallrun", "enable_doublejump" ] )
-	printt("setting player (", player.GetPlayerName(), ") settings for character " + ItemFlavor_GetHumanReadableRef( character ))
+	printt("setting player (", player.GetPlayerName(), ") settings for character " + ItemFlavor_GetHumanReadableRef( character ) )
 	player.SetPlayerSettingsWithMods( IF_Settings[ ItemFlavor_GetHumanReadableRef( character ) ], [ "enable_wallrun", "enable_doublejump" ] )
 
 	if( !IsLobby() )
@@ -177,7 +179,7 @@ void function InitRespawnPlayer(entity player)
 			GivePassive( player, ePassives.PAS_OCTANE )
 			player.GiveOffhandWeapon( "melee_wraith_kunai", OFFHAND_MELEE )
 			player.GiveOffhandWeapon( "mp_ability_heal", OFFHAND_SPECIAL )
-			player.GiveOffhandWeapon( "mp_ability_care_package", OFFHAND_INVENTORY )
+			player.GiveOffhandWeapon( "mp_weapon_jump_pad", OFFHAND_INVENTORY )
 			player.GiveOffhandWeapon( CONSUMABLE_WEAPON_NAME, OFFHAND_SLOT_FOR_CONSUMABLES )
 		} catch(error)
 		{
@@ -192,6 +194,8 @@ void function InitRespawnPlayer(entity player)
 		player.SetHealth( 100 )
 	}
 
+
+	UpdateCounts()
 }
 void function DEV_PDataInitForPlayer( entity player )
 {
@@ -205,6 +209,12 @@ void function DEV_PDataInitForPlayer( entity player )
 		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].meleeskin", 0 )
 		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].skin", 1644844869 )
 	}
+}
+
+void function UpdateCounts()
+{
+	SetGlobalNetInt( "livingPlayerCount", GetPlayerArray_AliveConnected().len() )
+	SetGlobalNetInt( "squadsRemainingCount", GetNumTeamsRemaining() )
 }
 
 void function RespawnOnDie(entity player, var damageInfo) 
