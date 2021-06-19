@@ -3,6 +3,7 @@ untyped
 global function CodeCallback_DamageEntity
 global function HandleFootstepDamage
 global function CodeCallback_OnEntityKilled
+global function UpdateNetCounts
 
 global function AddDamageCallback
 global function RemoveDamageCallback
@@ -117,7 +118,7 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 
 	// DEV_PDataInitForPlayer( player ) // this doesn't fully work as persistent data is never ready
 
-	UpdateCounts()
+	UpdateNetCounts()
 }
 
 void function InitRespawnPlayer(entity player)
@@ -195,7 +196,7 @@ void function InitRespawnPlayer(entity player)
 	}
 
 
-	UpdateCounts()
+	UpdateNetCounts()
 }
 void function DEV_PDataInitForPlayer( entity player )
 {
@@ -211,7 +212,7 @@ void function DEV_PDataInitForPlayer( entity player )
 	}
 }
 
-void function UpdateCounts()
+void function UpdateNetCounts()
 {
 	SetGlobalNetInt( "livingPlayerCount", GetPlayerArray_AliveConnected().len() )
 	SetGlobalNetInt( "squadsRemainingCount", GetNumTeamsRemaining() )

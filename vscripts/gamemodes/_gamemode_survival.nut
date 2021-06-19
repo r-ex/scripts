@@ -42,9 +42,29 @@ void function GamemodeSurvival_Init()
 	FlagClear("DeathFieldPaused")
 
 	AddClientCommandCallback( "GoToMapPoint", ClientCommand_GoToMapPoint )
+	AddCallback_OnPlayerKilled( OnPlayerKilled )
 
 	// run deathfield
 	RunArenaDeathField()
+}
+
+void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
+{
+	if( !IsValid( victim ) || !IsValid( attacker ) )
+		return
+
+	UpdateNetCounts()
+
+	if( attacker.IsPlayer() )
+	{
+		attacker.SetPlayerNetInt( "kills" , attacker.GetPlayerNetInt( "kills" ) + 1 )
+	}
+
+	if( victim.IsPlayer() )
+	{
+		SetPlayerEliminated( victim )
+	}
+	
 }
 
 void function RunArenaDeathField()
