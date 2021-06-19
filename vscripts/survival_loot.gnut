@@ -125,8 +125,56 @@ void function TrackingVision_CreatePOIForPickedUpLoot( entity player, int lootTy
 void function SURVIVAL_GiveMainWeapon( entity player, entity pickup, entity activeWeapon, bool dropCurrentWeapon, entity deathBox, bool doPickupPrint )
 {
 	printt("!!! SURVIVAL_GiveMainWeapon !!!")
-	if(dropCurrentWeapon)
-		player.DropWeapon( activeWeapon ) // FIXXX???
+
+	LootData newEquipData = SURVIVAL_Loot_GetLootDataByIndex( pickup.GetSurvivalInt() )
+	LootTypeData lt       = GetLootTypeData( newEquipData.lootType )
+
+	string newEquip     = newEquipData.ref
+	LootData oldEquipData = SURVIVAL_Loot_GetLootDataByRef( GetWeaponClassName( activeWeapon ) )
+	// EquipmentSlot es    = Survival_GetEquipmentSlotDataByRef( lt.equipmentSlot )
+
+	
+	LootRef lootRef       = SURVIVAL_CreateLootRef( newEquipData, pickup )
+	LootActionStruct as   = lt.groundActionFunc( player, lootRef )
+
+	if( dropCurrentWeapon )
+	{
+		//player.DropWeapon( activeWeapon ) // FIXXX???
+		vector origin = GetThrowOrigin( player )
+		vector fwd    = AnglesToForward( player.EyeAngles() )
+
+		//Create tracking event for players with tracking passive.
+		// if ( es.trackingVisionExchangePOI != -1 )
+		// 	TrackingVision_CreatePOI( es.trackingVisionExchangePOI, player, pickup.GetOrigin(), player.GetTeam(), player )
+
+		entity drop = SpawnGenericLoot( oldEquipData.ref, origin, <0,0,0>, 1 )
+		SetItemSpawnSource( drop, eSpawnSource.PLAYER_DROP, player )
+
+		if ( oldEquipData.lootType == eLootType.ARMOR  )
+		{
+			if ( GetCurrentPlaylistVarInt( "survival_shields", 1 ) == 1 )
+			{
+				int dropShieldHealth = player.GetShieldHealth()
+				drop.SetSurvivalProperty( dropShieldHealth )
+			}
+			else if ( GetCurrentPlaylistVarInt( "survival_shields", 1 ) == 4 )
+			{
+				drop.SetSurvivalProperty( 0 )
+			}
+		}
+
+		if ( IsValid( deathBox ) )
+		{
+			AddToDeathBox( drop, deathBox )
+		}
+		else
+		{
+			player.DropWeapon( activeWeapon )
+			activeWeapon.Destroy()
+			FakePhysicsThrow( player, drop, fwd * 100, true )
+		}
+
+	}
 
 	LootData data = SURVIVAL_Loot_GetLootDataByIndex( pickup.GetSurvivalInt() )
 	player.GiveWeapon( data.baseWeapon, WEAPON_INVENTORY_SLOT_ANY )
