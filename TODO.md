@@ -5,7 +5,7 @@
 - [ ] Gibraltar - Bombardment Ultimate doesn't work
 - [ ] Mirage - Tactical and Ultimate, player have to jump or decoys T-Posing, holo model wrong
 - [ ] Caustic - Tactical and Ultimate, no damage
-- [ ] Bangalore Smoke - Crashes the game
+- [x] Bangalore Smoke - Crashes the game
 - [x] No "squad left" count
 - [ ] No hotzone
 - [x] No kill count
