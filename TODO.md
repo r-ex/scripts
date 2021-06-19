@@ -36,3 +36,5 @@
 - [ ] no deathbox, no player banner, players insta die, no knock system
 - [ ] archer HUD doesn't work
 - [ ] broken weapon icon for EPG, ARCHER, SIDEWINDER and DEFENDER
+- [ ] no phoenix kit/ syringe/ cell hud
+- [ ] melee does insta kill
