@@ -240,7 +240,7 @@ int function GetPlayerBattlePassLastSeenXP( EHI playerEHI, ItemFlavor pass )
 		Assert( playerEHI == LocalClientEHI() )
 	#endif
 
-	#if DEV
+	#if R5DEV
 		if ( DEV_ShouldIgnorePersistence() )
 			return 0
 	#endif

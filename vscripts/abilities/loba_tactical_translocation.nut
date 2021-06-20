@@ -32,7 +32,7 @@ const asset TRANSLOCATION_DROP_TO_GROUND_DESTINATION_FX = $"P_warp_proj_drop_grn
 
 const bool TRANSLOCATION_DEBUG = false
 
-#if DEV
+#if R5DEV
 const bool TRANSLOCATION_BACKFACE_DEBUG = false
 #endif
 
