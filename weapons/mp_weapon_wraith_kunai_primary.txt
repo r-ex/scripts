@@ -26,7 +26,7 @@ WeaponData
 	//"idle_sound_player_1p"						"Wraith_Kunai_IdleSparks_1P"
 
 
-    "holster_type"									"pistol"
+    	"holster_type"									"pistol"
 
 	// Behavior
 	"deployfirst_time"								"1.9"

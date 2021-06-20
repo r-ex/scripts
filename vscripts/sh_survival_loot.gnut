@@ -26,6 +26,7 @@ global function GetPriorityForLootType
 global function GetCommsActionForName
 
 global function SURVIVAL_GetActiveWeapon
+global function SURVIVAL_GetLastActiveWeapon
 global function SURVIVAL_GetActiveWeaponSlot
 global function SURVIVAL_GetPrimaryWeaponRefs
 global function SURVIVAL_GetWeaponBySlot
@@ -390,6 +391,7 @@ void function SURVIVAL_Loot_InitShared()
 #if SERVER
 	AddCallback_OnClientConnected( OnClientConnected )
 	AddCallback_OnPlayerRespawned( OnPlayerRespawned )
+	SV_Survival_Loot_Init()
 #endif // SERVER
 
 	AddCallback_PlayerClassChanged( OnPlayerClassChanged )
