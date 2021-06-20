@@ -320,7 +320,7 @@ void function RespawnEntitySpawned( entity ent )
 			RuiSetFloat2( rui, "iconSize", <80,80,0> )
 			RuiSetFloat( rui, "distanceFade", RESPAWN_CHAMBER_ICON_FADE_DIST_NEAR )
 			RuiSetBool( rui, "adsFade", true )
-			RuiSetString( rui, "hint", "FAST TRAVEL" )
+			RuiSetString( rui, "hint", "#RESPAWN_ALLCAPS" )
 
 			thread ManageRespawnChamberData( ent, rui )
 
@@ -603,7 +603,7 @@ void function MinimapPackage_RespawnChamber( entity ent, var rui )
 
 string function RespawnChamber_TextOverride( entity ent )
 {
-	return "%use% Fast Travel to " + file.allStationsNames[file.currentSelStation] + "\n%use_alt% Cycle Destination"
+	//return "%use% Fast Travel to " + file.allStationsNames[file.currentSelStation] + "\n%use_alt% Cycle Destination"
 	entity player = GetLocalViewPlayer()
 	int team = player.GetTeam()
 	if ( GetPlayerArrayOfTeam( team ).len() == GetPlayerArrayOfTeam_Alive( team ).len() ||
@@ -629,50 +629,50 @@ string function RespawnDNA_TextOverride( entity ent )
 
 void function RespawnChamberOnUse( entity pickup, entity player, int pickupFlags )
 {
-	if(pickupFlags == 4)
-	{
-		file.currentSelStation++
-		if(file.currentSelStation >= file.allStations.len())
-			file.currentSelStation = 0
-	}
-	#if SERVER
-	else 
-	{
-		thread RespawnPlayersInDropship([player], file.allStations[file.currentSelStation])
-	}
+	// if(pickupFlags == 4)
+	// {
+	// 	file.currentSelStation++
+	// 	if(file.currentSelStation >= file.allStations.len())
+	// 		file.currentSelStation = 0
+	// }
+	// #if SERVER
+	// else 
+	// {
+	//	 thread RespawnPlayersInDropship([player], file.allStations[file.currentSelStation])
+	// }
 	
+	//#endif
+	if ( !(pickupFlags & USE_INPUT_LONG ) )
+		return
+
+	if ( !TeammatesWaitingToBeRespawned( player.GetTeam() ) )
+		return
+
+	#if CLIENT
+	HidePlayerHint( "#RESPAWN_AT_BEACONS_HINT" )
 	#endif
-	// if ( !(pickupFlags & USE_INPUT_LONG ) )
-	// 	return
 
-	// if ( !TeammatesWaitingToBeRespawned( player.GetTeam() ) )
-	// 	return
+	ExtendedUseSettings settings
+	settings.successSound = RESPAWN_BEACON_SUCCESS_SOUND
+	#if CLIENT
+		settings.loopSound = RESPAWN_BEACON_LOOP_SOUND
+		settings.displayRui = $"ui/health_use_progress.rpak"
+		settings.displayRuiFunc = DisplayRuiForRespawnChamber
+		settings.icon = $""
+		settings.hint = "#HINT_RESPAWNING"
+		settings.icon = RESPAWN_BEACON_ICON
+	#elseif SERVER
+		settings.startFunc = RespawnBeaconStartUse
+		settings.endFunc = RespawnBeaconStopUse
+		settings.successFunc = RespawnUserTeam
+		settings.exclusiveUse = true
+		settings.movementDisable = true
+		settings.holsterWeapon = true
+		#endif
+	settings.duration = RESPAWN_BEACON_RESPAWN_TIME
+	settings.useInputFlag = IN_USE_LONG
 
-	// #if CLIENT
-	// HidePlayerHint( "#RESPAWN_AT_BEACONS_HINT" )
-	// 	#endif
-
-	// ExtendedUseSettings settings
-	// settings.successSound = RESPAWN_BEACON_SUCCESS_SOUND
-	// #if CLIENT
-	// 	settings.loopSound = RESPAWN_BEACON_LOOP_SOUND
-	// 	settings.displayRui = $"ui/health_use_progress.rpak"
-	// 	settings.displayRuiFunc = DisplayRuiForRespawnChamber
-	// 	settings.icon = $""
-	// 	settings.hint = "#HINT_RESPAWNING"
-	// 	settings.icon = RESPAWN_BEACON_ICON
-	// #elseif SERVER
-	// 	settings.startFunc = RespawnBeaconStartUse
-	// 	settings.endFunc = RespawnBeaconStopUse
-	// 	settings.successFunc = RespawnUserTeam
-	// 	settings.exclusiveUse = true
-	// 	settings.movementDisable = true
-	// 	settings.holsterWeapon = true
-	// 	#endif
-	// settings.duration = RESPAWN_BEACON_RESPAWN_TIME
-	// settings.useInputFlag = IN_USE_LONG
-
-	// thread ExtendedUse( pickup, player, settings )
+	thread ExtendedUse( pickup, player, settings )
 }
 
 #if CLIENT
