@@ -168,7 +168,18 @@ void function InitRespawnPlayer(entity player)
 
 	//player.SetPlayerSettingsWithMods( $"settings/player/mp/pilot_survival_stim.rpak", [ "enable_wallrun", "enable_doublejump" ] )
 	printt("setting player (", player.GetPlayerName(), ") settings for character " + ItemFlavor_GetHumanReadableRef( character ) )
-	player.SetPlayerSettingsWithMods( IF_Settings[ ItemFlavor_GetHumanReadableRef( character ) ], [ "enable_wallrun", "enable_doublejump" ] )
+
+	array<string> mods = []
+	if( GetCurrentPlaylistVarBool( "enable_wallrun", true ) )
+	{
+		mods.append( "enable_wallrun" )
+	}
+	if( GetCurrentPlaylistVarBool( "enable_doublejump", true ) )
+	{
+		mods.append( "enable_doublejump")
+	}
+
+	player.SetPlayerSettingsWithMods( IF_Settings[ ItemFlavor_GetHumanReadableRef( character ) ], mods )
 
 	if( !IsLobby() )
 	{
