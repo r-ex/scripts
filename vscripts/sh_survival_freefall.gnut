@@ -370,6 +370,7 @@ void function PlayerSkyDive( entity player, vector driverViewVector, array<entit
 
 	player.ClearInvulnerable()
 	player.ClearParent()
+	player.HolsterWeapon()
 
 	ClearPlayerPlaneViewMode( player )
 	Remote_CallFunction_NonReplay( player, "ServerCallback_ClearHints" )
