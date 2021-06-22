@@ -94,6 +94,7 @@ table<asset> IF_Settings = {
 	character_wraith = $"settings/player/mp/pilot_survival_closer.rpak" // character_wraith_NAME
 }
 
+#document("CodeCallback_OnClientConnectionCompleted", "Called when player finishes connecting to the server")
 void function CodeCallback_OnClientConnectionCompleted( entity player )
 {
 	player.hasConnected = true
