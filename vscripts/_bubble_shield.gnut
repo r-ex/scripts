@@ -203,8 +203,8 @@ entity function CreateBubbleShieldWithSettings( int team, vector origin, vector 
 	entity bubbleShield = CreateEntity( "prop_dynamic" )
 	bubbleShield.SetValueForModelKey( collisionModel ) // TODO: fix this for apex
 	bubbleShield.kv.solid = SOLID_VPHYSICS
-    bubbleShield.kv.rendercolor = "81 130 151"
-    bubbleShield.kv.contents = (int(bubbleShield.kv.contents) | CONTENTS_NOGRAPPLE)
+  bubbleShield.kv.rendercolor = "81 130 151"
+  bubbleShield.kv.contents = (int(bubbleShield.kv.contents) | CONTENTS_NOGRAPPLE)
 	bubbleShield.SetOrigin( origin )
 	bubbleShield.SetAngles( angles )
      // Blocks bullets, projectiles but not players and not AI

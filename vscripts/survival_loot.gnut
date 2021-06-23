@@ -246,7 +246,7 @@ entity function SpawnGenericLoot( string ref, vector origin, vector angles, int 
 	
 	//LootData data = SURVIVAL_Loot_GetLootDataByRef( ref )
 	
-	loot.SetSurvivalInt(data.index)
+	loot.SetSurvivalInt( data.index )
 	loot.SetClipCount( count )
 
 	if (data.lootType == eLootType.MAINWEAPON) {
@@ -260,6 +260,9 @@ entity function SpawnGenericLoot( string ref, vector origin, vector angles, int 
 	loot.kv.fadedist = -1
 	loot.kv.renderamt = 255
 	loot.kv.rendercolor = "255 255 255"
+
+	loot.SetSkin( 2 )
+
 	
 	DispatchSpawn( loot )
 	
