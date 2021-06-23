@@ -408,7 +408,7 @@ void function RemoveCanister( entity canisterProxy, entity mover )
 		float duration = canisterProxy.GetSequenceDuration( "prop_caustic_gastank_destroy" )
 		Highlight_ClearOwnedHighlight( canisterProxy )
 		Highlight_ClearFriendlyHighlight( canisterProxy )
-		thread PlayAnim( canisterProxy, "prop_caustic_gastank_destroy" )
+		thread PlayAnim( canisterProxy, "prop_caustic_gastank_destroy", mover)
 		//canisterProxy.Dissolve( ENTITY_DISSOLVE_CORE, <0,0,0>, 500 )
 		waitthread PROTO_FadeModelAlphaOverTime( canisterProxy, duration )
 	}
