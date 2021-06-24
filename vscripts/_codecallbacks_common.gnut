@@ -232,7 +232,7 @@ void function InitRespawnPlayer(entity player)
 			GivePassive( player, ePassives.PAS_OCTANE )
 			player.GiveOffhandWeapon( "melee_wraith_kunai", OFFHAND_MELEE )
 			player.GiveOffhandWeapon( "mp_weapon_grenade_bangalore", OFFHAND_SPECIAL )
-			player.GiveOffhandWeapon( "mp_weapon_jump_pad", OFFHAND_INVENTORY )
+			player.GiveOffhandWeapon( "mp_ability_care_package", OFFHAND_INVENTORY )
 			player.GiveOffhandWeapon( CONSUMABLE_WEAPON_NAME, OFFHAND_SLOT_FOR_CONSUMABLES )
 		} catch(error)
 		{

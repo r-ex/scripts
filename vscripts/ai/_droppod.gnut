@@ -360,7 +360,7 @@ void function DropPodOnImpactFXAndShake( entity droppod )
 	// 1 - No Damage - Only Force
 	// 2 - Push players
 	// 8 - Test LOS before pushing
-	local flags = 11
+	local flags = 2 // 11
 	local impactOrigin = e.targetOrigin + Vector( 0,0,10 )
 	local impactRadius = 192
 	thread PushPlayerAndCreateDropPodCollision( droppod, expect vector( e.targetOrigin ) )

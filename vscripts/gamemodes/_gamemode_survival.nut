@@ -33,13 +33,11 @@ void function GamemodeSurvival_Init()
 
 	// init flags
 	FlagInit( "DeathCircleActive", true )
-	FlagInit( "DeathFieldPaused", false )
 	FlagInit( "Survival_LootSpawned", true )
 	FlagInit( "PathFinished", false )
 
 	// make sure that flags are set/cleared correctly
 	FlagSet("DeathCircleActive")
-	FlagClear("DeathFieldPaused")
 
 	AddClientCommandCallback( "GoToMapPoint", ClientCommand_GoToMapPoint )
 	AddCallback_OnPlayerKilled( OnPlayerKilled )

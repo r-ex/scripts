@@ -214,7 +214,6 @@ void function CodeCallback_MapSpawn() // original script entry point
 	PrecacheWeapon( $"mp_weapon_alternator_smg" )
 	PrecacheWeapon( $"mp_weapon_bubble_bunker" )
 	PrecacheWeapon( $"mp_weapon_dmr" )
-	PrecacheWeapon( $"mp_weapon_havocbp" )
 	PrecacheWeapon( $"mp_weapon_doubletake" )
 	PrecacheWeapon( $"mp_weapon_energy_shotgun" )
 	PrecacheWeapon( $"mp_weapon_lmg" )
