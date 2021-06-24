@@ -4420,7 +4420,10 @@ void function PlayBattleChatterLineToTeamButNotSpeaker ( entity player, string s
 
 void function UpdateDamageState( entity ent, var damageInfo )
 {
-	//stub
+    float hp = ent.GetHealth() - DamageInfo_GetDamage( damageInfo )
+    if(hp < 0)
+        hp = 0.0
+    ent.SetHealth(hp)
 }
 
 void function DisableMantle( entity player )
