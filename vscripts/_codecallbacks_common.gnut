@@ -101,7 +101,7 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 
 	SetGameState(eGameState.Playing)
 
-	AddDeathCallback( "player", RespawnOnDie )
+	AddDeathCallback( "player", OnPlayerDeathCallback )
 
 	foreach( callbackFunc in svGlobal.onClientConnectedCallbacks ) {
 		callbackFunc(player)
@@ -120,6 +120,46 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 	// DEV_PDataInitForPlayer( player ) // this doesn't fully work as persistent data is never ready
 
 	UpdateNetCounts()
+}
+
+void function OnPlayerDeathCallback( entity player, var damageInfo )
+{
+	if( IsAlive( player ) )
+		return
+	
+	if( GetCurrentPlaylistVarBool( "should_respawn_on_death", true ) )
+	{
+		thread InitRespawnPlayer( player )
+		return
+	}
+
+
+	// TODO: deathboxes
+	int team = player.GetTeam()
+	int aliveTeamPlayers = GetPlayerArrayOfTeam_Alive( team ).len()
+
+	if( aliveTeamPlayers == 0 )
+	{
+		// team is dead, create deathbox with no card
+		SURVIVAL_CreateDeathBox( player, true )
+
+	}
+	else {
+		// team is not dead, create deathbox with card
+
+
+	}
+
+
+
+}
+
+
+void function RespawnOnDie(entity player, var damageInfo) 
+{
+	if( IsAlive( player ) )
+		return
+  thread InitRespawnPlayer(player)
 }
 
 void function InitRespawnPlayer(entity player)
@@ -171,11 +211,11 @@ void function InitRespawnPlayer(entity player)
 	printt("setting player (", player.GetPlayerName(), ") settings for character " + ItemFlavor_GetHumanReadableRef( character ) )
 
 	array<string> mods = []
-	if( GetCurrentPlaylistVarBool( "enable_wallrun", true ) )
+	if( GetCurrentPlaylistVarBool( "survival_wallrun_enabled", true ) )
 	{
 		mods.append( "enable_wallrun" )
 	}
-	if( GetCurrentPlaylistVarBool( "enable_doublejump", true ) )
+	if( GetCurrentPlaylistVarBool( "survival_jumpkit_enabled", true ) )
 	{
 		mods.append( "enable_doublejump")
 	}
@@ -230,12 +270,6 @@ void function UpdateNetCounts()
 	SetGlobalNetInt( "squadsRemainingCount", GetNumTeamsRemaining() )
 }
 
-void function RespawnOnDie(entity player, var damageInfo) 
-{
-	if( IsAlive( player ) )
-		return
-  thread InitRespawnPlayer(player)
-}
 
 void function AddCallback_OnWeaponAttack( void functionref( entity, entity, string, int, vector, vector ) callback )
 {

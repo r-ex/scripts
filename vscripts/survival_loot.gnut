@@ -16,6 +16,7 @@ global function GetThrowOrigin
 global function SpawnGenericLoot
 global function SetItemSpawnSource
 global function AddToDeathBox
+global function SURVIVAL_CreateDeathBox
 global function FakePhysicsThrow
 global function SURVIVAL_GivePlayerEquipment
 global function SpawnWeaponAndAmmo
@@ -277,6 +278,52 @@ void function SetItemSpawnSource( entity drop, int spawnSource, entity player )
 void function AddToDeathBox( entity drop, entity deathBox )
 {
 
+}
+
+// this is only SURVIVAL_* because sh_survival_training already has CreateDeathBox
+entity function SURVIVAL_CreateDeathBox( entity player, bool hasCard )
+{
+	entity box = CreatePropDynamic_NoDispatchSpawn( DEATH_BOX, player.GetOrigin(), <0, 45, 0>, 6 )
+	box.kv.fadedist = 10000
+	if ( hasCard )
+		box.kv.targetname = DEATH_BOX_TARGETNAME_TRAINING
+
+	DispatchSpawn( box )
+
+	box.RemoveFromAllRealms()
+	box.AddToOtherEntitysRealms( player )
+
+	box.Solid()
+	// box.EnableRenderAlways()
+	//box.AllowMantle()
+	box.SetOwner( player )
+
+	if ( hasCard )
+	{
+		Highlight_SetNeutralHighlight( box, "sp_objective_entity" )
+		Highlight_ClearNeutralHighlight( box )
+		// file.playerTrainingData[ player ].deathBox = box
+		thread DeathBoxFakePhysics( box )
+	}
+
+	return box
+}
+
+void function DeathBoxFakePhysics( entity box )
+{
+	vector restPos = box.GetOrigin()
+	vector fallPos = restPos + < 0, 0, 54 >
+
+	entity mover = CreateScriptMover( restPos, box.GetAngles(), 0 )
+	box.SetParent( mover, "", true )
+
+	mover.NonPhysicsMoveTo( fallPos, 0.5, 0.0, 0.5 )
+	wait 0.5
+	mover.NonPhysicsMoveTo( restPos, 0.5, 0.5, 0.0 )
+	wait 0.5
+	if ( IsValid( box ) )
+		box.ClearParent()
+	mover.Destroy()
 }
 
 void function FakePhysicsThrow( entity player, entity drop, vector forward, bool idk )
