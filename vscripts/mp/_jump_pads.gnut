@@ -57,15 +57,41 @@ void function JumpPad_CreatedCallback( entity jumpPad )
 	trigger.kv.triggerFilterNonCharacter = "0"
 	DispatchSpawn( trigger )
 	trigger.SetEnterCallback( OnJumpPadAreaEnter )
+    
+    //Need to set parent so the jump trigger is destroyed with the pad entity
+    trigger.SetParent( jumpPad )
 
 	//entity traceBlocker = CreateTraceBlockerVolume( trigger.GetOrigin(), 24.0, true, CONTENTS_BLOCK_PING | CONTENTS_NOGRAPPLE, TEAM_MILITIA, "GEYSER_PING_SCRIPT_NAME" ) // todo: replace geyser_ping_script_name --
 	//traceBlocker.SetBox( <-192, -192, -16>, <192, 192, 3000> )
+
+	AddEntityCallback_OnDamaged( jumpPad, JumpPad_OnTakeDamage )
+    AddEntityCallback_OnKilled( jumpPad, JumpPad_OnDeath )
+}
+
+void function JumpPad_OnDeath( entity ent, var damageInfo )
+{
+    //todo: Explosion and sound 
+    EmitSoundOnEntity( ent, "JumpPad_Explo")
+    PlayImpactFXTable( ent.GetOrigin(), ent, "titan_exp_ground" )
+}
+
+void function JumpPad_OnTakeDamage( entity ent, var damageInfo )
+{
+	entity attacker = DamageInfo_GetAttacker( damageInfo )
+    printt("JumpPad_OnTakeDamage. HP", ent.GetHealth())
+	if ( IsValid( attacker ) && attacker.IsPlayer() )
+	{
+		PlayerDamageFeedback( ent, damageInfo, 0 )
+        UpdateDamageState( ent, damageInfo )
+	}
 }
 
 void function JumpPad_PlayAnims( entity jumpPad, entity mover )
 {
+    EmitSoundOnEntity( jumpPad, "JumpPad_Deploy_Unpack" )
     PlayAnim( jumpPad, "prop_octane_jump_pad_deploy", mover )
     PlayAnim( jumpPad, "prop_octane_jump_pad_deploy_idle", mover )
+    
 }
 
 void function JumpPad_PlayLaunchAnim( entity trigger )
