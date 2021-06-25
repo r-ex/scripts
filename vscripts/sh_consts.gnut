@@ -452,6 +452,7 @@ global const CLUSTER_ROCKET_FX_TABLE 					= "exp_rocket_cluster_secondary"
 // the amount of damage needed to break melee assist
 global const DAMAGE_BREAK_MELEE_ASSIST = 1400
 
+global const float REVIVE_TIME_TO_REVIVE = 30.0
 // ----------------------------
 //  LEVEL SCRIPT SHARED CONSTS
 // ----------------------------
@@ -942,6 +943,7 @@ global enum userSignInState
 global enum eEventNotifications
 {
 	Clear,
+	BeingRevived,
 	RoundWinningKillReplayCancelled,
 	Grapple_WasGrappled_ByTitan,
 	Grapple_WasGrappled_ByPilot,

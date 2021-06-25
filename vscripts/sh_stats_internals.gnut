@@ -287,7 +287,8 @@ int function GetStat_Int( entity player, StatEntry entry, bool atStart = false )
 		return entry.calcFunc_Int( player, entry.calcSourceEntries, atStart )
 
 	#if SERVER
-		return (atStart ? player.p.statValuesAtStart_Int : player.p.statValues_Int)[entry.indexWithinType]
+		// todo: fix index
+		return 0 // (atStart ? player.p.statValuesAtStart_Int : player.p.statValues_Int)[entry.indexWithinType]
 	#elseif CLIENT || UI
 		#if R5DEV
 			//if ( GetConVarBool( "persistence_development_mode", false ) )

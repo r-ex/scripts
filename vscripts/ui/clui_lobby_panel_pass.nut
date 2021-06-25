@@ -1441,8 +1441,6 @@ void function UIToClient_StartBattlePassScene( var panel )
 #if CLIENT
 void function UIToClient_StopBattlePassScene()
 {
-	// no
-	RegisterSignal( "StopBattlePassSceneThread" )
 	//
 	Signal( fileLevel.signalDummy, "StopBattlePassSceneThread" )
 	ClearBattlePassItem()
@@ -1474,7 +1472,6 @@ struct CarouselColumnState
 
 void function BattlePassScene_Thread( var panel )
 {
-	Signal( fileLevel.signalDummy, "StopBattlePassSceneThread" ) //
 	EndSignal( fileLevel.signalDummy, "StopBattlePassSceneThread" )
 
 	fileLevel.isBattlePassSceneThreadActive = true

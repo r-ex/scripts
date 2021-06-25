@@ -103,7 +103,7 @@ void function ShGas_Init()
 	#endif
 
 	#if CLIENT
-	RegisterSignal( "StopPassiveProtectionOnHUD" )
+	RegisterSignal( "StopPassiveGasProtectionOnHUD" )
 
 	file.lastDOFLerpTime = Time()
 	RegisterSignal( "GasCloud_StopColorCorrection" )
@@ -752,8 +752,8 @@ void function CreateGasExposureRadius( SmokescreenStruct smokescreen )
 							smokeFXs[i][0] = fx
 							smokeFXs[i][1] = CreateTraceBlockerVolume( (offsetCenter + FX_GAS_SMOKE_OFFSET), (radius * 0.45), true, CONTENTS_BLOCKLOS, smokescreen.traceBlockerTeam, smokescreen.traceBlockerScriptName )
 
-							//if ( smokescreen.smokeSource != null )
-								//smokeFXs[i][1].SetParent( smokescreen.smokeSource )
+							if ( smokescreen.smokeSource != null )
+								smokeFXs[i][1].SetParent( smokescreen.smokeSource )
 
 							if ( IsValid( smokescreen.inflictor ) )
 							{

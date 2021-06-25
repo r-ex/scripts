@@ -91,7 +91,7 @@ void function InitDevMenu()
 
 		AddMenuFooterOption( menu, LEFT, BUTTON_B, true, "%[B_BUTTON|]% Back", "Back" )
 		AddMenuEventHandler( menu, eUIEvent.MENU_NAVIGATE_BACK, BackOnePage_Activate )
-		AddMenuFooterOption( menu, LEFT, BUTTON_Y, true, "%[Y_BUTTON|]% Repeat Last Dev Command:", "Repeat Last Dev Command:", RepeatLastCommand_Activate )
+		AddMenuFooterOption( menu, LEFT, BUTTON_Y, true, "%[Y_BUTTON|]% Repeat Last Command", "Repeat Last Command:", RepeatLastCommand_Activate )
 		AddMenuFooterOption( menu, LEFT, BUTTON_BACK, true, "%[BACK|]% Bind Selection to Gamepad", "", BindCommandToGamepad_Activate )
 		file.footerHelpTxtLabel = GetElementsByClassname( menu, "FooterHelpTxt" )[0]
 
@@ -271,7 +271,8 @@ void function SetupDefaultDevCommandsMP()
 {
 	if ( IsSurvivalMenuEnabled() )
 	{
-		SetupDevMenu( "MDLSpawner", SetDevMenu_MDLSpawner )
+		SetupDevMenu( "MDLSpawner", SetDevMenu_ModelSpawner )
+		SetupDevMenu( "Abilities", SetDevMenu_Abilities )
 		SetupDevMenu( "Change Character", SetDevMenu_SurvivalCharacter )
 		SetupDevMenu( "Alter Loadout", SetDevMenu_AlterLoadout )
 		SetupDevMenu( "Override Spawn Character", SetDevMenu_OverrideSpawnSurvivalCharacter )
@@ -367,9 +368,14 @@ void function SetupLevelDevCommands()
 	}
 }
 
-void function SetDevMenu_MDLSpawner( var _ )
+void function SetDevMenu_ModelSpawner( var _ )
 {
-	thread ChangeToThisMenu( SetupMDLSpawner )
+	thread ChangeToThisMenu( SetupModelSpawner )
+}
+
+void function SetDevMenu_Abilities( var _ )
+{
+	thread ChangeToThisMenu( SetupAbilities )
 }
 
 void function SetDevMenu_SurvivalCharacter( var _ )
@@ -501,7 +507,7 @@ void function SetDevMenu_SurvivalLoot( var categories )
 
 void function SetDevMenu_SurvivalIncapShieldBots( var _ )
 {
-	thread ChangeToThisMenu( SetupSurvivalIncapShieldBot )
+	thread ChangeToThisMenu( SetupSurvivalIncapShieldBots )
 }
 
 

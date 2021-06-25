@@ -24,7 +24,6 @@ const asset FLASHEFFECT    = $"wpn_grenade_sonar_impact"
 
 void function SonarGrenade_Init()
 {
-	PrecacheParticleSystem( FLASHEFFECT )
 	PrecacheParticleSystem( $"wpn_grenade_sonar_impact" )
 }
 

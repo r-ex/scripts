@@ -59,6 +59,7 @@ global enum eDamageSourceId
 
 	//---------------------------
 
+	mp_weapon_grenade_electric_smoke
 	// Pilot Weapons
 	mp_weapon_hemlok
 	mp_weapon_lmg
@@ -93,6 +94,7 @@ global enum eDamageSourceId
 	mp_weapon_melee_survival
 	mp_weapon_pdw
 	mp_weapon_energy_ar
+	mp_ability_laser_trip
 	//
 	melee_pilot_emptyhanded
 	melee_pilot_arena
@@ -415,6 +417,7 @@ void function DamageTypes_Init()
 		//mp
 		[ eDamageSourceId.mp_extreme_environment ] 					= "#DAMAGE_EXTREME_ENVIRONMENT",
 
+		[ eDamageSourceId.mp_weapon_grenade_electric_smoke ]		= "ELECTRIC SMOKE",
 		[ eDamageSourceId.mp_weapon_yh803 ] 						= "#WPN_LIGHT_TURRET",
 		[ eDamageSourceId.mp_weapon_yh803_bullet ]					= "#WPN_LIGHT_TURRET",
 		[ eDamageSourceId.mp_weapon_yh803_bullet_overcharged ]		= "#WPN_LIGHT_TURRET",
@@ -431,7 +434,7 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.mp_weapon_gunship_launcher ] 				= "#WPN_GUNSHIP_LAUNCHER",
 		[ eDamageSourceId.mp_weapon_gunship_turret ]				= "#WPN_GUNSHIP_TURRET",
 		[ eDamageSourceId.mp_weapon_gunship_turret ]				= "#WPN_GUNSHIP_MISSILE",
-
+		[ eDamageSourceId.mp_ability_laser_trip ] 					= "LASER TRIP",
 		[ eDamageSourceId.mp_titanability_slow_trap ]				= "#DEATH_SLOW_TRAP",
 
 		[ eDamageSourceId.rodeo ] 									= "#DEATH_TITAN_RODEO",

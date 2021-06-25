@@ -8,29 +8,15 @@ global function OnWeaponNpcPrimaryAttack_weapon_mdlspawner
 global function ClientCommand_SetMDLSpawnerModel
 #endif // #if SERVER
 
-const MASTIFF_BLAST_PATTERN_LEN = 8
+const MASTIFF_BLAST_PATTERN_LEN = 1
 
 struct {
 	float[2][MASTIFF_BLAST_PATTERN_LEN] boltOffsets = [
-		[0.0, 0.15], //
-		[0.0, 0.3], //
-		[0.0, 0.6], //
-		[0.0, 1.2], //
-		[0.0, -0.3], //
-		[0.0, -0.6], //
-		[0.0, -1.2], //
-		[0.0, -0.15], //
-	],
+		[0.0, 0.0], //
+	]
 
 	/*array boltOffsets = [
-		[0.0, 0.0], // center
-		[1.0, 0.0], // top
-		[0.0, 1.0], // right
-		[0.0, -1.0], // left
-		[0.5, 0.5],
-		[0.5, -0.5],
-		[-0.5, 0.5],
-		[-0.5, -0.5]
+		[0.0, 0.0], // 
 	]*/
 
 	var model = $"mdl/dev/empty_model.rmdl"
@@ -76,16 +62,7 @@ int function FireMastiff( WeaponPrimaryAttackParams attackParams, bool playerFir
 	entity owner = weapon.GetWeaponOwner()
 	bool shouldCreateProjectile = false
 	#if SERVER
-	//ClientCommand_dev_spawn_blockable_door(owner, [])
-
-	// entity player = gp()[0]
-
-	// TraceResults tr = TraceLine(
-	// 	player.EyePosition(), player.EyePosition() + 300.0 * player.GetViewVector(),
-	// 	[ player ], TRACE_MASK_NPCWORLDSTATIC, TRACE_COLLISION_GROUP_NONE
-	// )
-	// CreateLightSprite( tr.endPos, AnglesCompose( VectorToAngles( FlattenNormalizeVec( tr.endPos - player.GetOrigin() ) ), <0, -90, 0> ), "255 255 255")
-	MDLSpawner_SpawnModel()
+	MDLSpawner_SpawnModel()	
 	#endif
 
 	vector attackAngles = VectorToAngles( attackParams.dir )
@@ -162,4 +139,3 @@ void function MDLSpawner_SpawnModel( )
 	DispatchSpawn( ent )
 	#endif
 }
-

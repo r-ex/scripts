@@ -262,7 +262,7 @@ entity function SpawnGenericLoot( string ref, vector origin, vector angles, int 
 	loot.kv.renderamt = 255
 	loot.kv.rendercolor = "255 255 255"
 
-	loot.SetSkin( 2 )
+	// loot.SetSkin( 2 )
 
 	
 	DispatchSpawn( loot )

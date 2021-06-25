@@ -113,7 +113,7 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 
 
 
-  thread InitRespawnPlayer(player)
+  	thread InitRespawnPlayer(player)
 
 	CodeCallback_OnClientReloadConnectionCompleted(player)
 
@@ -178,7 +178,7 @@ void function InitRespawnPlayer(entity player)
 	vector origin
 	vector angles
 
-  DoRespawnPlayer( player, null )
+  	DoRespawnPlayer( player, null )
 
 	if( GetCurrentPlaylistName() != "survival_training" && !IsLobby() && GetMapName() != "mp_rr_test" )
 	{

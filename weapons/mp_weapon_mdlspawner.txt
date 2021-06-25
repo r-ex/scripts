@@ -57,7 +57,7 @@ WeaponData
 
 	"damage_type" 									"bullet"
 
-	"ammo_clip_size"   								"6"
+	"ammo_clip_size"   								"600"
 
 	"dof_zoom_focusArea_horizontal"					"0.06"
 	"dof_zoom_focusArea_top"						"0.070"

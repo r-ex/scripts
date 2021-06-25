@@ -23,12 +23,12 @@ int function GetPlayerStagingSquadRealm( entity player )
 
 void function CreateWeaponRacksForRealm( int realm )
 {
-    // idk if this works
-    // array<entity> racks = GetEntArrayByScriptName( "weapon_racks" )
-    // foreach( entity rack in racks )
-    // {
-    //     rack.SetModel( $"mdl/industrial/gun_rack_arm_down.rmdl" )
-    // }
+	// this probably doesn't work
+	array<entity> racks = GetEntArrayByScriptName( "weapon_racks" )
+	foreach( entity rack in racks )
+	{
+    	rack.SetModel( $"mdl/industrial/gun_rack_arm_down.rmdl" )
+	}
 }
 
 void function CreateGunRangeTargetsForRealm( int player )

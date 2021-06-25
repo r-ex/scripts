@@ -179,6 +179,7 @@ void function Consumable_Init()
 			phoenixKit.healAmount = 100.0
 			phoenixKit.shieldAmount = 100.0
 			phoenixKit.chargeSoundName = "PhoenixKit_Charge"
+			phoenixKit.cancelSoundName = ""
 			phoenixKit.modName = "phoenix_kit"
 		}
 		file.consumableTypeToInfo[ eConsumableType.COMBO_FULL ] <- phoenixKit
@@ -276,6 +277,8 @@ void function Consumable_Init()
 
 	#if CLIENT
 		AddCallback_OnPlayerConsumableInventoryChanged( SwitchSelectedConsumableIfEmptyAndPushClientSelectionToServer ) //client authoritative selection
+
+		SetCallback_UseConsumable( Consumable_HandleConsumableUseCommand )
 	#endif
 }
 
@@ -337,14 +340,11 @@ void function OnWeaponOwnerChanged_Consumable( entity weapon, WeaponOwnerChanged
 	}
 
 	file.chargeTimesInitialized = true
-	weapon.SetMods( ["phoenix_kit"] )
+	weapon.SetMods( [] )
 }
 
 bool function OnWeaponAttemptOffhandSwitch_Consumable( entity weapon )
 {
-	printt("OnWeaponAttemptOffhandSwitch_Consumable", GetConsumableModOnWeapon( weapon ), weapon.GetWeaponPrimaryClipCount())
-	weapon.SetMods([ "phoenix_kit" ])
-
 	if ( GetConsumableModOnWeapon( weapon ) == "" && weapon.GetOwner().IsBot() )
 		return false
 
@@ -484,9 +484,9 @@ void function OnWeaponActivate_Consumable( entity weapon )
 
 void function OnWeaponDeactivate_Consumable( entity weapon )
 {
-	#if SERVER
 		entity weaponOwner = weapon.GetOwner()
 
+	#if SERVER
 		weaponOwner.SetPlayerNetBool( "isHealing", false )
 		weaponOwner.SetPlayerNetInt( "healingKitTypeCurrentlyBeingUsed", -1 )
 
@@ -514,10 +514,20 @@ void function OnWeaponDeactivate_Consumable( entity weapon )
 		if ( weapon.GetOwner() != GetLocalClientPlayer() )
 			return
 
-		if ( !file.healCompletedSuccessfully )
+		string currentMod = GetConsumableModOnWeapon( weapon )
+		if ( currentMod != "" )
 		{
-			//Play canceled heal sound here!
+			int consumableType  = file.modNameToConsumableType[ currentMod ]
+			ConsumableInfo info = file.consumableTypeToInfo[ consumableType ]
+
+			if ( !file.healCompletedSuccessfully && info.cancelSoundName != "" && DoesAliasExist( info.cancelSoundName ) )
+			{
+				EmitSoundOnEntity( weaponOwner, info.cancelSoundName )
+			}
 		}
+
+		Signal( weaponOwner, "ConsumableDestroyRui" )
+		Chroma_ConsumableEnd()
 	#endif // CLIENT
 }
 
@@ -646,7 +656,7 @@ void function OnWeaponChargeEnd_Consumable( entity weapon )
 			StopSoundOnEntity( player, info.chargeSoundName )
 		}
 	}
-	#endif
+#endif
 
 	#if SERVER
 		ConsumablePersistentData useData = file.weaponPersistentData[ weapon ]
@@ -715,6 +725,7 @@ var function OnWeaponPrimaryAttack_Consumable( entity weapon, WeaponPrimaryAttac
 		{
 			thread DoHealScreenFX( player )
 		}
+		Chroma_ConsumableSucceeded( info )
 	#endif
 
 	return 1

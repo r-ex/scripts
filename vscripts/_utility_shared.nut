@@ -142,12 +142,17 @@ void function InitWeaponScripts()
 	MpWeaponEnergyAR_Init()
 	MpWeaponEnergyShotgun_Init()
 	MpWeaponDoubletake_Init()
+	MpWeaponGreandeElectricSmoke_Init()
 	MpWeaponZipline_Init()
 	MpWeaponAlternatorSMG_Init()
-
+	MpWeaponGrenadeGravity_Init()
 	MpWeaponThermiteGrenade_Init()
 	MeleeWraithKunai_Init()
 	MpWeaponWraithKunaiPrimary_Init()
+	MpTitanAbilityLaserTrip_Init()
+	MpWeaponSatchel_Init()
+	MpWeaponProximityMine_Init()
+
 
 	#if DEVSCRIPTS
 		MpAbilityGibraltarShield_Init()
@@ -159,6 +164,8 @@ void function InitWeaponScripts()
 		MpWeaponDirtyBomb_Init()
 		MDLSpawner_Init()
 		MpWeaponDeployableMedic_Init()
+		MpWeaponDeployableCover_Init()
+
 		MpWeaponIncapShield_Init()
 		MpWeaponGrenadeBangalore_Init()
 		MpWeaponGrenadeCreepingBombardment_Init()

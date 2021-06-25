@@ -204,7 +204,7 @@ void function InitInventoryFooter( var panel )
 
 	#if R5DEV
 		AddPanelFooterOption( panel, LEFT, BUTTON_DPAD_DOWN, true, "#DOWN_BUTTON_DEV_MENU", "#DEV_MENU", OpenDevMenu )
-		AddPanelFooterOption( panel, LEFT, BUTTON_DPAD_LEFT, true, "test menu", "test menu", OpenTestMenu )
+		//AddPanelFooterOption( panel, LEFT, BUTTON_DPAD_LEFT, true, "test menu", "test menu", OpenTestMenu )
 	#endif
 }
 

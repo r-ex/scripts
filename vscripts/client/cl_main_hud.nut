@@ -1140,7 +1140,6 @@ void function ClientHudInit( entity player )
 				var elem = HudElement( "Dev_Info3" )
 				Hud_SetText( elem, "Test Map" )
 				Hud_Show( elem )
-				DrawAttentionToTestMap( elem )
 
 				/*switch( GetMapName() )
 				{

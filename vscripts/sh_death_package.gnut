@@ -309,6 +309,14 @@ void function HandleDeathPackage( entity ent, var damageInfo )
 	if ( DamageInfo_GetDamageSourceIdentifier( damageInfo ) == eDamageSourceId.round_end )
 		return
 
+	#if REVIVE_ENABLED == true
+	if ( ent.IsPlayer() && ShouldRevivePlayer( ent, damageInfo ) )
+	{
+		thread DeathPackage_PlayerRevive( ent )
+		return
+	}
+	#endif
+
 	int dpFlags = DamageInfo_GetCustomDamageType( damageInfo )
 
 	if ( ent.HasKey( "deathScriptFuncName" ) && ent.kv.deathScriptFuncName != "" )

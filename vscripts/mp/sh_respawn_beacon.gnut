@@ -25,10 +25,10 @@ global const string RESPAWN_CHAMBER_TARGETNAME = "respawn_chamber"
 global const string RESPAWN_DNA_TARGETNAME = "respawn_dna"
 global const string RESPAWN_DROPSHIP_TARGETNAME = "respawn_dropship"
 
-const float RESPAWN_BEACON_HOLO_EFFECT_HEIGHT = 120.0
+const float RESPAWN_BEACON_HOLO_EFFECT_HEIGHT = 75.0
 
 global const float RESPAWN_DNA_LIFETIME = 90.0
-const float RESPAWN_DROP_TIME = 3.0
+const float RESPAWN_DROP_TIME = 10.0
 const asset RESPAWN_BEACON_MODEL = $"mdl/dev/empty_model.rmdl"
 global const float RESPAWN_BEACON_RESPAWN_TIME = 5.0
 
@@ -45,7 +45,7 @@ global const asset RESPAWN_BEACON_ICON = $"rui/hud/gametype_icons/survival/dna_s
 global const asset RESPAWN_BEACON_ICON_SMALL = $"rui/hud/gametype_icons/survival/dna_station_small"
 const string SOUND_HOLOGRAM_LOOP = "Survival_Emit_RespawnChamber"
 
-const float RESPAWN_CHAMBER_ICON_FADE_DIST_NEAR =1000.0
+const float RESPAWN_CHAMBER_ICON_FADE_DIST_NEAR = 300.0
 const float RESPAWN_CHAMBER_ICON_FADE_DIST_FAR = 1000.0
 
 global enum eRespawnStatus
@@ -82,38 +82,7 @@ struct
 {
 	array<dropshipAnimData> dropshipAnimDataList
 	array<entity> allStations
-	array<string> allStationsNames = [
-		"Wetlands",
-		"Relay Cascade",
-		"Swamps",
-		"Shattered Forest Ruins",
-		"Shattered Forest Settlement",
-		"Hydro Dam",
-		"Overgrown Bones",
-		"Artillery",
-		"To-be Cage",
-		"Repulsor Entry",
-		"Bridges",
-		"Repulsor Entry 2",
-		"KC Load Screen",
-		"Cascades",
-		"Cascades Tunnel",
-		"Middle Of The Map",
-		"Water Treatment",
-		"Slum Lakes Overhang",
-		"Slum Lakes",
-		"Runoff Behind",
-		"Bunker Big Rock",
-		"Runoff Pipes",
-		"Airbase",
-		"Skull Town Green Patch",
-		"Skull Town Oasis",
-		"Skull Town Choke",
-		"Caves",
-		"Thunderdome"
-	]
-	int currentSelStation
-	
+
 	#if CLIENT
 		array<var> respawnChamberRuis
 		table<entity, int> chamberToBeamFX
@@ -310,7 +279,6 @@ void function UpdateRespawnChamberRuis( var rui, bool waitingToBeRespawned )
 
 void function RespawnEntitySpawned( entity ent )
 {
-
 	switch ( ent.GetTargetName() )
 	{
 		case RESPAWN_CHAMBER_TARGETNAME:
@@ -603,7 +571,6 @@ void function MinimapPackage_RespawnChamber( entity ent, var rui )
 
 string function RespawnChamber_TextOverride( entity ent )
 {
-	//return "%use% Fast Travel to " + file.allStationsNames[file.currentSelStation] + "\n%use_alt% Cycle Destination"
 	entity player = GetLocalViewPlayer()
 	int team = player.GetTeam()
 	if ( GetPlayerArrayOfTeam( team ).len() == GetPlayerArrayOfTeam_Alive( team ).len() ||
@@ -629,19 +596,6 @@ string function RespawnDNA_TextOverride( entity ent )
 
 void function RespawnChamberOnUse( entity pickup, entity player, int pickupFlags )
 {
-	// if(pickupFlags == 4)
-	// {
-	// 	file.currentSelStation++
-	// 	if(file.currentSelStation >= file.allStations.len())
-	// 		file.currentSelStation = 0
-	// }
-	// #if SERVER
-	// else 
-	// {
-	//	 thread RespawnPlayersInDropship([player], file.allStations[file.currentSelStation])
-	// }
-	
-	//#endif
 	if ( !(pickupFlags & USE_INPUT_LONG ) )
 		return
 
@@ -1016,7 +970,7 @@ void function RespawnBeacon_PutPlayerInDropship( entity player, entity ship, int
 	jumpAnimSequence.attachment = animData.attachment
 	jumpAnimSequence.hideProxy = animData.hideProxy
 
-	// player.Signal( "StopPostDeathLogic" )
+	player.Signal( "StopPostDeathLogic" )
 	AddCinematicFlag( player, CE_FLAG_INTRO )
 	AddCinematicFlag( player, CE_FLAG_HIDE_MAIN_HUD )
 	AddCinematicFlag( player, CE_FLAG_EMBARK ) // DoF

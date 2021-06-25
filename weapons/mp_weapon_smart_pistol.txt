@@ -98,10 +98,10 @@ WeaponData
 		"aimassist_adspull_weaponclass"					"broad"
 
 		// Damage - When Used by Players
-		"damage_near_value"   							"16"
-		"damage_far_value"								"16"
-		"damage_near_value_titanarmor"					"115"
-		"damage_far_value_titanarmor" 					"95"
+		"damage_near_value"   							"11"
+		"damage_far_value"								"11"
+		"damage_near_value_titanarmor"					"11"
+		"damage_far_value_titanarmor" 					"11"
 
 		"damage_rodeo" 									"200"
 		"damage_near_distance"							"1250"  // match to search distance and red crosshair range
@@ -575,7 +575,6 @@ WeaponData
 	}
 
 	"ui1_enable"		"1"
-	"ui1_draw_cloaked"	"1"
 	UiData1
 	{
 		"ui"								"ui/p2011_green_sights"
@@ -583,14 +582,10 @@ WeaponData
 		Args
 		{
 			vis							player_zoomfrac
-			ammo						weapon_ammo
-			clipSize					weapon_clipSize
-			clipCount					weapon_ammoClipCount
 		}
 	}
 
 	"ui2_enable"		"1"
-	"ui2_draw_cloaked"	"1"
 	UiData2
 	{
 		"ui"								"ui/p2011_ammo_counter"

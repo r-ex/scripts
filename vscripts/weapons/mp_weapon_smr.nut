@@ -29,7 +29,7 @@ var function OnWeaponPrimaryAttack_weapon_smr( entity weapon, WeaponPrimaryAttac
 		WeaponFireMissileParams fireMissileParams
 		fireMissileParams.pos = attackParams.pos
 		fireMissileParams.dir = attackParams.dir
-		fireMissileParams.speed = 1
+		fireMissileParams.speed = 1.5
 		fireMissileParams.scriptTouchDamageType = damageTypes.projectileImpact
 		fireMissileParams.scriptExplosionDamageType = damageTypes.explosive
 		fireMissileParams.doRandomVelocAndThinkVars = false

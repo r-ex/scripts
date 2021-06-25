@@ -380,12 +380,34 @@ void function SURVIVAL_Loot_InitShared()
 
 	PrecacheModel( $"mdl/props/global_access_panel_button/global_access_panel_button_console_w_stand.rmdl" )
 
+	RegisterSignal( "_SetPlayerInventory" )
+
+
+	//Remote_RegisterClientFunction( "ClientCallback_PickupAllSurvivalItem", "int", INT_MIN, INT_MAX, "bool" )
+	//Remote_RegisterClientFunction( "ClientCallback_PickupSurvivalItem", "entity", "int", INT_MIN, INT_MAX, "entity" )
+	//Remote_RegisterClientFunction( "ClientCallback_PickupSurvivalItem_UI", "int", INT_MIN, INT_MAX, "int", INT_MIN, INT_MAX, "int", INT_MIN, INT_MAX )
+	//Remote_RegisterClientFunction( "ClientCallback_AutoPickupFromDeathbox", "entity" )
+	//Remote_RegisterClientFunction( "ClientCallback_SwapSurvivalItem", "int", INT_MIN, INT_MAX, "entity", "entity" )
+	//Remote_RegisterClientFunction( "ClientCallback_SwapSurvivalItem_UI", "int", INT_MIN, INT_MAX, "int", INT_MIN, INT_MAX, "int", INT_MIN, INT_MAX )
+	//AddClientCommandCallback( "ClientCallback_UseSurvivalItem", "entity" )
+	//Remote_RegisterClientFunction( "ClientCallback_Sur_SwapToNextOrdnance" )
+	//AddClientCommandCallback( "ClientCallback_Sur_SwitchToOrdnance", "int", INT_MIN, INT_MAX, "bool" )
+	//Remote_RegisterClientFunction( "ClientCallback_DeathboxOpened" )
+	//AddUICallback( "BackpackOpened", UICallback_BackpackOpened )
+	//AddUICallback( "BackpackClosed", UICallback_BackpackClosed )
+	//Remote_RegisterClientFunction( "ClientCallback_Sur_SwapPrimaryPositions" )
+                           
+		//Remote_RegisterClientFunction( "ClientCallback_PickupSurvivalLootFromDeathbox", "int", INT_MIN, INT_MAX, "int", INT_MIN, INT_MAX, "entity", "entity", "int", INT_MIN, INT_MAX, "int", INT_MIN, INT_MAX, "bool", "bool", "bool" )
+
 	#if CLIENT
 		AddCreateCallback( "prop_survival", OnPropSurvivalCreate )
+		AddCreateCallback( "prop_death_box", OnDeathBoxCreated )
+		AddDestroyCallback( "prop_death_box", OnDeathBoxDestroyed )
 		AddCreateCallback( "prop_dynamic", OnDeathBoxCreated )
 	#elseif SERVER
 		AddSpawnCallback( "prop_survival", OnPropSurvivalCreate )
 		AddSpawnCallback( "prop_dynamic", OnDeathBoxCreated )
+		AddSpawnCallback( "prop_death_box", OnDeathBoxCreated )
 	#endif
 
 #if SERVER
@@ -3457,12 +3479,20 @@ void function OnDeathBoxUse( entity box, entity player, int useInputFlags )
 
 void function OnDeathBoxCreated( entity ent )
 {
-	if ( ent.GetTargetName() == DEATH_BOX_TARGETNAME )
-	{
-		SetCallback_CanUseEntityCallback( ent, DeathBox_CanUseFunction )
+	if ( ent.GetTargetName() != DEATH_BOX_TARGETNAME )
+		return
 
-		AddCallback_OnUseEntity( ent, OnDeathBoxUse )
-	}
+	SetCallback_CanUseEntityCallback( ent, DeathBox_CanUseFunction )
+
+	AddCallback_OnUseEntity( ent, OnDeathBoxUse )
+
+}
+
+void function OnDeathBoxDestroyed( entity ent )
+{
+	//#if(CLIENT)
+	//	file.allDeathBoxes.fastremovebyvalue( ent )
+	//#endif
 }
 
 bool function DeathBox_CanUseFunction( entity player, entity ent )
