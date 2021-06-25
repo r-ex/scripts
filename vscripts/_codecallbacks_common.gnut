@@ -180,15 +180,20 @@ void function InitRespawnPlayer(entity player)
 
   DoRespawnPlayer( player, null )
 
-	if( GetCurrentPlaylistName() != "survival_training" && !IsLobby() )
+	if( GetCurrentPlaylistName() != "survival_training" && !IsLobby() && GetMapName() != "mp_rr_test" )
 	{
 		origin = GetEnt( "info_player_start" ).GetOrigin()
 		angles = GetEnt( "info_player_start" ).GetAngles()
 
 	}
+	else if ( GetMapName() == "mp_rr_test" )
+	{
+		origin = <0, 0, 0>
+		angles = <0, 0, 0>
+	}
 	else {
 		// todo: set to actual start pos for staging --
-		origin = < 26328, -6235, -27540 >
+		origin = <26328, -6235, -27540>
 		angles = <21.5, 0.2, 0>
 	}
 
@@ -234,7 +239,7 @@ void function InitRespawnPlayer(entity player)
 			player.GiveOffhandWeapon( "mp_weapon_grenade_bangalore", OFFHAND_SPECIAL )
 			player.GiveOffhandWeapon( "mp_ability_care_package", OFFHAND_INVENTORY )
 			player.GiveOffhandWeapon( CONSUMABLE_WEAPON_NAME, OFFHAND_SLOT_FOR_CONSUMABLES )
-		} catch(error)
+		} catch( error )
 		{
 
 		}

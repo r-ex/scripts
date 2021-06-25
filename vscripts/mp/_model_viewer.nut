@@ -42,7 +42,7 @@ function ToggleModelViewer()
 			wait 0.5
 
 			ModelViewerDisableConflicts()
-			Remote_CallFunction_NonReplay( player, "ServerCallback_ModelViewerDisableConflicts" )
+			//Remote_CallFunction_NonReplay( player, "ServerCallback_ModelViewerDisableConflicts" )
 
 			ReloadShared()
 

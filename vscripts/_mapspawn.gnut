@@ -1,3 +1,5 @@
+untyped
+
 //=========================================================
 //	_mapspawn.nut
 //  Called on newgame or transitions, BEFORE entities have been created and initialized
@@ -266,6 +268,40 @@ void function CodeCallback_MapSpawn() // original script entry point
 	printl( "Code Script: _mapspawn" )
 
 	SV_CL_Shared_Init()
+
+	AddClientCommandCallback( "script", ClientCommand_script )
+}
+
+bool function ClientCommand_script( entity player, array<string> args )
+{
+	if( !IsValid( player ) )
+		return true
+
+	string func = ""
+
+	for ( int i = 0; i < args.len(); i++ )
+	{
+		func = (func + args[i])
+		if( i == 0 )
+		{
+			func = (func + " ")
+		}
+		
+		
+	}
+
+	func = StringReplace( func, "'", "\"" )
+	printt( func )
+
+	
+
+	try{
+		compilestring( "return "+func+"" )()
+	}
+	catch( error ) {
+		printt("error while running script cc", error)
+	}
+	return true
 }
 
 
