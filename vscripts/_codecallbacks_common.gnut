@@ -82,6 +82,14 @@ global function AddCallback_GameStatePostEnter
 global function AddCallback_OnThreatEventActivation
 global function AddCallback_OnThreatEventStateChange
 
+struct
+{
+	table<string, array< void functionref( entity, var ) > > classDamageCallbacks
+	table<string, array< void functionref( entity, var ) > > classDamageFinalCallbacks
+	table<string, array< void functionref( entity, var ) > > classPostDamageCallbacks
+	array< void functionref( entity ) > playerInventoryChangedCallbacks
+} file
+
 table<asset> IF_Settings = {
 	character_bangalore = $"settings/player/mp/pilot_survival_firesupport.rpak", //character_bangalore_NAME
 	character_bloodhound = $"settings/player/mp/pilot_survival_tracker.rpak", // character_bloodhound_NAME
@@ -154,11 +162,11 @@ void function OnPlayerDeathCallback( entity player, var damageInfo )
 
 }
 
-
 void function RespawnOnDie(entity player, var damageInfo) 
 {
 	if( IsAlive( player ) )
 		return
+
   thread InitRespawnPlayer(player)
 }
 
@@ -255,6 +263,7 @@ void function InitRespawnPlayer(entity player)
 
 	UpdateNetCounts()
 }
+
 void function DEV_PDataInitForPlayer( entity player )
 {
 	player.SetPersistentVar( "loadouts.character_selection", 827049897 )
@@ -275,10 +284,10 @@ void function UpdateNetCounts()
 	SetGlobalNetInt( "squadsRemainingCount", GetNumTeamsRemaining() )
 }
 
-
-void function AddCallback_OnWeaponAttack( void functionref( entity, entity, string, int, vector, vector ) callback )
+void function AddCallback_OnWeaponAttack( void functionref( entity, entity, string, int, vector, vector ) callbackFunc )
 {
-	printt("AddCallback_OnWeaponAttack")
+	Assert( !svGlobal.onWeaponAttackCallbacks.contains( callbackFunc ), "Already added " + string( callbackFunc ) + " with AddCallback_OnWeaponAttack" )
+	svGlobal.onWeaponAttackCallbacks.append( callbackFunc )
 }
 
 void function AddClientCommandCallbackNew( string commandString, void functionref( entity player, array<string> args ) callbackFunc )
@@ -288,14 +297,16 @@ void function AddClientCommandCallbackNew( string commandString, void functionre
 	svGlobal.clientCommandCallbacksNew[ commandString ] <- callbackFunc
 }
 
-void function AddCallback_OnPreClientDisconnected( void functionref( entity player) callbackFunc )
+void function AddCallback_OnPreClientDisconnected( void functionref( entity player ) callbackFunc )
 {
-
+	Assert( !svGlobal.onPreClientDisconnectedCallbacks.contains( callbackFunc ), "Already added " + string( callbackFunc ) + " with AddCallback_OnPreClientDisconnected" )
+	svGlobal.onPreClientDisconnectedCallbacks.append( callbackFunc )
 }
 
 void function AddCallback_OnDeathBoxSpawned( void functionref( entity player, entity attacker, int damageSourceID ) callbackFunc )
 {
-
+	Assert( !svGlobal.onDeathBoxSpawnedCallbacks.contains( callbackFunc ), "Already added " + string( callbackFunc ) + " with AddCallback_OnDeathBoxSpawned" )
+	svGlobal.onDeathBoxSpawnedCallbacks.append( callbackFunc )
 }
 
 void function AddCallback_OnGetBestObserverTarget( entity functionref( entity player, bool reverse) callbackFunc )
@@ -318,13 +329,7 @@ void function AddCallback_OnThreatEventStateChange( entity player, int threat, i
 	
 }
 
-struct
-{
-	table<string, array< void functionref( entity, var ) > > classDamageCallbacks
-	table<string, array< void functionref( entity, var ) > > classDamageFinalCallbacks
-	table<string, array< void functionref( entity, var ) > > classPostDamageCallbacks
-	array< void functionref( entity ) > playerInventoryChangedCallbacks
-} file
+
 
 void function CodeCallback_DamageEntity( entity ent, var damageInfo )
 {

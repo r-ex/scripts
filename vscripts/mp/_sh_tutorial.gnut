@@ -307,7 +307,7 @@ void function InitPlayerTutorialContextHistory( entity player, bool forceReset =
 
 void function ResetPlayerTutorialContext( entity player, int tutorialContext )
 {
-	player.SetPersistentVar( "tutorialActionCount[" + tutorialContext + "]", 0 )
+	//player.SetPersistentVar( "tutorialActionCount[" + tutorialContext + "]", 0 )
 }
 
 
@@ -321,7 +321,7 @@ bool function IsTutorialContextCompleted( entity player, int tutorialContext )
 {
 	array<InputHint> inputHints = file.contextInputHintMap[tutorialContext]
 
-	int contextBitField = player.GetPersistentVarAsInt( "tutorialActionCount[" + tutorialContext + "]" )
+	int contextBitField = 0 //player.GetPersistentVarAsInt( "tutorialActionCount[" + tutorialContext + "]" )
 
 	foreach ( bitIndex, InputHint inputHint in inputHints )
 	{
