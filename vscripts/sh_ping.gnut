@@ -297,9 +297,6 @@ void function ShPing_Init()
 		AddClientCommandCallbackNew( CMDNAME_PING_NEW_LOOT, ClientCommand_PingNewLoot )
 		AddClientCommandCallbackNew( CMDNAME_PING_REPLY, ClientCommand_PingReply )
 		AddClientCommandCallbackNew( CMDNAME_CANCEL_PING_BY_TICKETID, ClientCommand_CancelPingByTicketID )
-		AddPingCallbackForType( ePingType.LOCATION, PingCallback_Location )
-		AddPingCallbackForType( ePingType.MAP_WAYPOINT, PingCallback_Location )
-		AddPingCallbackForType( ePingType.WE_GO, PingCallback_We_Go)
 	#endif
 
 	#if CLIENT
@@ -2832,32 +2829,5 @@ void function UpdatePingBlockingHintAfterDelay( float delay, string commandRef )
 
 	UpdatePingBlockingFunctions( commandRef )
 	ShowNextPingBlockFunctionHint( commandRef )
-}
-#endif
-
-// ping callback testing
-#if SERVER
-void function PingCallback_Location( entity player, entity wp, entity pingEnt, int pingType )
-{
-	if ( !IsValid( pingEnt ) )
-		return
-
-	printt(VM_NAME(), FUNC_NAME(), "ping cb " + pingType)
-}
-
-void function PingCallback_We_Go( entity player, entity wp, entity pingEnt, int pingType )
-{
-	if ( !IsValid( pingEnt ) )
-		return
-
-	SetTeam( wp, player.GetTeam() )
-	SetTeam( pingEnt, player.GetTeam() )
-	//SetTargetName( wp, RESPAWN_DNA_TARGETNAME )
-	int GAMETIME_INDEX_PING_COMMON_COUNTDOWN = 0
-	wp.SetWaypointGametime( GAMETIME_INDEX_PING_COMMON_COUNTDOWN, Time() + RESPAWN_DNA_LIFETIME )
-	wp.SetOwner( player )
-	wp.SetParent( pingEnt, "", false )
-
-	printt(VM_NAME(), FUNC_NAME(), "ping cb " + pingType)
 }
 #endif

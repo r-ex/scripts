@@ -176,8 +176,13 @@ void function InitRespawnPlayer(entity player)
 		return
 	
   wait 1.0
-	
-	SetTeam(player, 10)
+
+	SetTeam( player, 10 )
+
+	int teamMemberIndex = GetPlayerArrayOfTeam( player.GetTeam() ).len() - 1
+
+	player.SetTeamMemberIndex( teamMemberIndex )
+
 	PlayerMatchState_Set(player, ePlayerMatchState.NORMAL)
 	player.SetPlayerNetBool( "pingEnabled", true )
 

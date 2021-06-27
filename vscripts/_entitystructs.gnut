@@ -73,8 +73,8 @@ global struct HoverTank
 
 global struct PingTableStruct // TODO: fix shared waypoints script, look at BurnDamageStack for reference
 {
-	table<entity> locations
-	table<entity> loots
+	array<entity> locations
+	array<entity> loots
 	entity latestPing
 }
 

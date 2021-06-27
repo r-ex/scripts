@@ -1554,7 +1554,7 @@ entity function GetAnyValidLocPingForReuse( entity player, int pingType, entity 
 	if ( player.p.pings.locations.len() == 0 )
 		return null
 
-	entity wp           = player.p.pings.locations[0]
+	entity wp           = player.p.pings.locations.top()
 	float timeSincePing = Waypoint_GetWaypointAge( wp )
 	if ( timeSincePing >= PING_REUSE_TIME )
 		return null
