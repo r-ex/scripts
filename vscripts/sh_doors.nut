@@ -11,6 +11,7 @@
 global function ShDoors_Init
 global function IsDoor
 global function GetAllPropDoors
+global function ShDoors_IsDoorGoalToOpen
 
 #if SERVER && R5DEV
 global function DEV_RestartAllDoorThinks
