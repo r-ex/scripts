@@ -164,7 +164,7 @@ void function SURVIVAL_GiveMainWeapon( entity player, entity pickup, entity acti
 	printt("!!! SURVIVAL_GiveMainWeapon !!!")
 
 
-	if( IsWeaponInPrimarySlot2( player, activeWeapon) )
+	if( !IsWeaponInPrimarySlot( player, activeWeapon) )
 	{
 		activeWeapon = SURVIVAL_GetLastActiveWeapon( player )
 	}
@@ -221,6 +221,7 @@ void function SURVIVAL_GiveMainWeapon( entity player, entity pickup, entity acti
 
 	LootData data = SURVIVAL_Loot_GetLootDataByIndex( pickup.GetSurvivalInt() )
 	player.GiveWeapon( data.baseWeapon, WEAPON_INVENTORY_SLOT_ANY )
+	player.SetActiveWeaponByName( eActiveInventorySlot.mainHand, data.baseWeapon )
 }
 
 vector function GetThrowOrigin( entity player )
@@ -328,7 +329,14 @@ void function DeathBoxFakePhysics( entity box )
 
 void function FakePhysicsThrow( entity player, entity drop, vector forward, bool idk )
 {
+	entity physics = CreatePropPhysics( drop.GetModelName() , drop.GetOrigin(), player.GetAngles() )
 
+	vector velocity = forward * 1000
+
+
+	drop.SetParent( physics )
+
+	physics.SetVelocity( forward )
 }
 
 void function SURVIVAL_GivePlayerEquipment( entity player, string newEquip, int value )
@@ -452,10 +460,11 @@ int function SURVIVAL_LootTierForLootGroup( int zoneClass )
 	return zoneClass
 }
 
-bool function IsWeaponInPrimarySlot2( entity player, entity weapon )
+bool function IsWeaponInPrimarySlot( entity player, entity weapon )
 {
-	if ( !IsValid( weapon ) )
-		return false
+	entity weaponInSlot0 = player.GetNormalWeapon( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
+	entity weaponInSlot1 = player.GetNormalWeapon( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 
-	return weapon == player.GetNormalWeapon( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
+	bool isInPrimarySlot = IsValid( weapon ) && (weapon == weaponInSlot0 || weapon == weaponInSlot1)
+	return isInPrimarySlot
 }

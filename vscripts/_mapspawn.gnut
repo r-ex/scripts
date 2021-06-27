@@ -300,14 +300,9 @@ bool function ClientCommand_script( entity player, array<string> args )
 		{
 			func = (func + " ")
 		}
-		
-		
 	}
-
 	func = StringReplace( func, "'", "\"" )
 	printt( func )
-
-	
 
 	try{
 		compilestring( "return "+func+"" )()

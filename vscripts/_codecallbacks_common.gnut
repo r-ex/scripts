@@ -240,7 +240,6 @@ void function InitRespawnPlayer(entity player)
 		// todo: just reset the inventory before respawning
 		try {
 			player.GiveWeapon( "mp_weapon_rspn101", WEAPON_INVENTORY_SLOT_ANY )
-			player.GiveWeapon( "mp_weapon_frag_grenade", WEAPON_INVENTORY_SLOT_ANY )
 			player.GiveWeapon( "mp_weapon_wraith_kunai_primary", WEAPON_INVENTORY_SLOT_PRIMARY_2 )
 			GivePassive( player, ePassives.PAS_OCTANE )
 			player.GiveOffhandWeapon( "melee_wraith_kunai", OFFHAND_MELEE )
