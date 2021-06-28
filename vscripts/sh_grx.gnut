@@ -106,7 +106,7 @@ const int GRX_SCRIPT_QUERY_IDENTIFIER_START_INDEX = 1
 const int GRX_SCRIPT_QUERY_IDENTIFIER_START_INDEX = INT_MIN
 #endif
 
-const bool GRX_DEBUG_PRINTS = true
+const bool GRX_DEBUG_PRINTS = false
 
 
 //////////////////////
@@ -1211,8 +1211,8 @@ void function DEV_GRX_BulkOpenPacksUsingBots()
 	try{ServerCommand( "mtx_httpSleepSeconds 0" )}catch( e1 ){}
 	try{ServerCommand( "imgui_console_max_buffer 1000" )}catch( e2 ){}
 	try{ServerCommand( "not_focus_sleep 0" )}catch( e3 ){}
-	//if ( !Dev_CommandLineHasParm( "-partyDediOnly" ) )
-	//	Dev_CommandLineAddParm( "-partyDediOnly", "-partyDediOnly" )
+	// if ( !Dev_CommandLineHasParm( "-partyDediOnly" ) )
+	// 	Dev_CommandLineAddParm( "-partyDediOnly", "-partyDediOnly" )
 
 	#if GRX_DEBUG_PRINTS && R5DEV
 		fileLevel.GRX_DEBUG_PRINTS_disableTemporarily = true
@@ -1396,7 +1396,8 @@ void function ShGRX_OnClientConnectionCompleted( entity player )
 	else
 	{
 		codeUserInfo.inventoryState = GRX_INVENTORYSTATE_CLEAN
-		codeUserInfo.balances.resize( 3, 0 )
+		// codeUserInfo.balances.resize( 3, 0 )
+		codeUserInfo.balances = [0, 0, 0]
 	}
 	HandleGRXCodeUserInfoUpdated( player, codeUserInfo )
 }

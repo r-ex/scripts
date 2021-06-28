@@ -36,6 +36,9 @@ void function GamemodeSurvival_Init()
 	FlagInit( "Survival_LootSpawned", true )
 	FlagInit( "PathFinished", false )
 
+	RegisterSignal( "SwitchToOrdnance" )
+	RegisterSignal( "SwapToNextOrdnance" )
+
 	// make sure that flags are set/cleared correctly
 	FlagSet("DeathCircleActive")
 
@@ -151,7 +154,7 @@ float function SURVIVAL_GetAirburstHeight()
 
 void function SURVIVAL_AddLootBin( entity lootbin )
 {
-
+	InitLootBin( lootbin )
 }
 
 array<string> function SURVIVAL_GetMultipleWeightedItemsFromGroup( string lootGroup, int numLootItems )
