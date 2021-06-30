@@ -807,7 +807,7 @@ void function UpdatePlayerStatusCounts()
 		return
 
 	clGlobal.levelEnt.Signal( "UpdatePlayerStatusCounts" ) //For Pilot Elimination based modes
-	clGlobal.levelEnt.Signal( "UpdateTitanCounts" ) //For all modes
+	// clGlobal.levelEnt.Signal( "UpdateTitanCounts" ) //For all modes
 }
 
 

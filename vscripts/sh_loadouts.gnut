@@ -1649,7 +1649,7 @@ bool function ValidateAndFixLoadoutSlot( EHI playerEHI, LoadoutEntry entry, bool
 		{
 			ItemFlavor itemFlavor
 #if R5DEV
-			if ( resetToRandom || GetConVarBool( "loadouts_forceRandom" ) )
+			if ( resetToRandom ) // || GetConVarBool( "loadouts_forceRandom" )
 			{
 				itemFlavor = GetRandomGoodItemFlavorForLoadoutSlot( playerEHI, entry )
 			}
@@ -1666,7 +1666,7 @@ bool function ValidateAndFixLoadoutSlot( EHI playerEHI, LoadoutEntry entry, bool
 		{
 			int newSlotContentsIndex
 #if R5DEV
-			if ( resetToRandom || GetConVarBool( "loadouts_forceRandom" ) )
+			if ( resetToRandom ) // || GetConVarBool( "loadouts_forceRandom" )
 			{
 				int value = RandomIntRangeInclusive( entry.minInteger, entry.maxInteger )
 				newSlotContentsIndex = SLOT_CONTENTS_FIRST_VALID_ITEM + (value - entry.minInteger)
