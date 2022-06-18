@@ -93,7 +93,7 @@ Scripts:
 	sh_character_abilities.gnut
 	sh_character_cosmetics.nut
 	sh_weapons.gnut
-    sh_dev_weapons.nut
+	sh_dev_weapons.nut
 	sh_weapon_cosmetics.nut
 ]
 
@@ -135,7 +135,7 @@ Scripts:
 When: "SERVER && DEV"
 Scripts:
 [
-    _smoke_test.gnut
+	_smoke_test.gnut
 ]
 
 When: "SERVER"
@@ -178,7 +178,7 @@ Scripts:
 When: "SERVER || CLIENT"
 Scripts:
 [
-    _dev_remote_functions_mp.gnut // DEVSCRIPTS REMOVE
+	_dev_remote_functions_mp.gnut // DEVSCRIPTS REMOVE
 	_remote_functions_mp.gnut
 ]
 
@@ -332,7 +332,7 @@ Scripts:
 	mp/sh_lootbin.gnut
 	mp/_sh_tutorial.gnut
 	mp/sh_survival_training.gnut
-    mp/sh_supply_ship.gnut
+	mp/sh_supply_ship.gnut
 
 	_ultimates.gnut
 ]
@@ -347,7 +347,7 @@ Scripts:
 When: "SERVER"
 Scripts:
 [
-    _utility.gnut
+	_utility.gnut
 	_anim.gnut
 	_bubble_shield.gnut
 	_codecallbacks_common.gnut
@@ -453,12 +453,12 @@ Scripts:
 	gamemodes/_gamemode_survival.nut
 	mp/_base_gametype_mp.gnut
 	mp/_playlist.gnut
-    mp/_bombardment_utility.gnut
-    mp/_bleedout.gnut
+	mp/_bombardment_utility.gnut
+	mp/_bleedout.gnut
 	mp/_staging_area.gnut
 	_sneak_peek.gnut
 
-    ai/_ai_mortar_spectres.gnut
+	ai/_ai_mortar_spectres.gnut
 	survival_loot.gnut
 	survival_ship.gnut
 	mp/_loot_ticks.nut
@@ -689,12 +689,12 @@ Scripts:
 	ui/panel_quip_intro.nut
 	ui/panel_quip_kill.nut
 
-    ui/menu_customize_weapon.nut
-    ui/panel_weapon_skins.nut
+	ui/menu_customize_weapon.nut
+	ui/panel_weapon_skins.nut
 
 	ui/menu_main.nut
-    ui/panel_mainmenu.nut
-    ui/panel_establishuser.nut
+	ui/panel_mainmenu.nut
+	ui/panel_establishuser.nut
 	ui/menu_gamma.nut
 	ui/menu_matchmaking_utility.nut
 	ui/menu_survival_exit.nut
@@ -704,8 +704,7 @@ Scripts:
 	ui/panel_legend.nut
 	ui/menu_survival_ground_list.nut
 	ui/menu_survival_quick_swap.nut
-	
-	
+
 	lobby/sh_lobby.gnut
 ]
 
@@ -764,7 +763,7 @@ Scripts:
 When: "DEV && (SERVER || CLIENT || UI)"
 Scripts:
 [
-    sh_dev_utility.nut
+	sh_dev_utility.nut
 ]
 
 When: "DEV && CLIENT"

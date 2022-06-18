@@ -37,11 +37,11 @@ struct
 
 void function ScriptMovers_Init()
 {
-	AddSpawnCallbackEditorClass( "prop_dynamic", 				"script_door", 				ScriptedDoorInit )
-	AddSpawnCallbackEditorClass( "prop_dynamic", 				"script_switch", 			ScriptedSwitchInit )
-	AddSpawnCallbackEditorClass( "script_mover_lightweight", 	"script_rotator", 			ScriptedRotatorThink )
-	AddSpawnCallbackEditorClass( "script_mover_lightweight", 	"script_seesaw", 			SeeSawThink )
-	AddSpawnCallbackEditorClass( "prop_dynamic", 				"shootable_clasp", 			ClaspInit )
+	AddSpawnCallbackEditorClass( "prop_dynamic", "script_door", ScriptedDoorInit )
+	AddSpawnCallbackEditorClass( "prop_dynamic", "script_switch", ScriptedSwitchInit )
+	AddSpawnCallbackEditorClass( "prop_dynamic", "shootable_clasp", ClaspInit )
+	AddSpawnCallbackEditorClass( "script_mover_lightweight", "script_rotator", ScriptedRotatorThink )
+	AddSpawnCallbackEditorClass( "script_mover_lightweight", "script_seesaw", SeeSawThink )
 
 	AddSpawnCallback_ScriptName( "FanPusher", FanPusherThink )
 
@@ -144,14 +144,14 @@ void function ScriptedDoorInit( entity door )
 	array validModels = [
 		$"models/door/door_imc_interior_03_128_animated.mdl",
 		$"models/door/pod_door_Hangar_IMC_01_animated.mdl",
-        $"models/door/door_512x512x16_elevatorstyle01_animated.mdl",
+		$"models/door/door_512x512x16_elevatorstyle01_animated.mdl",
 		$"models/door/door_256x256x8_elevatorstyle01_animated.mdl",
-        $"models/door/door_128x104x8_rolldownstyle01_animated.mdl",
-        $"models/door/door_256x256x8_rolldownstyle01_animated.mdl",
-        $"models/door/door_256_02_beacon_metal_door_animated.mdl",
+		$"models/door/door_128x104x8_rolldownstyle01_animated.mdl",
+		$"models/door/door_256x256x8_rolldownstyle01_animated.mdl",
+		$"models/door/door_256_02_beacon_metal_door_animated.mdl",
 		$"models/door/door_beacon_core_animated.mdl",
-        $"models/door/door_128x104x8_elevatorstyle01_animated.mdl"
-        $"models/door/door_marvin_animated.mdl"
+		$"models/door/door_128x104x8_elevatorstyle01_animated.mdl"
+		$"models/door/door_marvin_animated.mdl"
 	]
 	Assert( validModels.contains( door.GetModelName() ), "Door model at " + door.GetOrigin() + " is invalid: " + door.GetModelName() )
 	#endif
@@ -419,10 +419,10 @@ void function ScriptedSwitchInit( entity button )
 		}
 
 		if ( !buttonIsUsable )
-			break 		//exit loop if we just want the pretty lights, but no player usability
+			break //exit loop if we just want the pretty lights, but no player usability
 
 		if ( buttonIsSingleUse && buttonUsedOnce )
-			break 		//exit loop if this is a single use button
+			break //exit loop if this is a single use button
 
 		if ( isPressurePlate )
 		{
@@ -451,6 +451,7 @@ void function ScriptedSwitchInit( entity button )
 				Entity_StopFXArray( button )
 				if ( usesSkins )
 					button.SetSkin( inactiveSkinID )
+
 				FlagWait( flagRequired )
 				ScriptToyChangeStatusLights( button, $"runway_light_green" )
 				if ( usesSkins )
@@ -462,7 +463,6 @@ void function ScriptedSwitchInit( entity button )
 			//-------------------------
 			// WAIT FOR STATE CHANGE (SIMPLE PUSH BUTTON)
 			//-------------------------
-
 			if ( buttonActivated )
 			{
 				wait multiUseDelay
@@ -480,7 +480,6 @@ void function ScriptedSwitchInit( entity button )
 		//--------------------------------------
 		// Player activated, switch button state
 		//--------------------------------------
-
 		buttonUsedOnce = true
 		buttonActivated = !buttonActivated
 
@@ -510,12 +509,9 @@ void function ScriptedSwitchInit( entity button )
 		//------------
 		// SET FLAGS
 		//------------
-
 		// Button activated (green)
 		if ( flagToggle != "" && buttonActivated )
-		{
 			FlagSet( flagToggle )
-		}
 
 		if ( buttonActivated )
 			SpawnSpawnersLinkedToButton( button, expect entity( player ) )
@@ -608,7 +604,7 @@ void function PressurePlateWaitSignal( entity trigger, string waitSignal )
 	//waitSignal is either "OnTrigger" or "OnEndTouchAll"
 
 	trigger.EndSignal( "OnDestroy" )
-	entity result //hack. Result info from triggers
+	// entity result // hack. Result info from triggers
 
 	// while ( IsValid( trigger ) )
 	// {

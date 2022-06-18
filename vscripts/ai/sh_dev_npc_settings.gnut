@@ -93,7 +93,6 @@ void function SetupAbilities()
 	SetupDevCommand( "A-WALL", "give mp_weapon_deployable_cover" )
 	SetupDevCommand( "ELECTRIC SMOKE", "give mp_weapon_grenade_electric_smoke" )
 	SetupDevCommand( "MELEE", "give mp_weapon_melee_survival" )
-	SetupDevCommand( "KUNAI", "give mp_weapon_kunai_ns" )
 	#endif
 }
 

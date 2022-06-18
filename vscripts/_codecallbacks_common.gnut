@@ -120,8 +120,6 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 
 	ZiplineInit( player )
 
-
-
 	player.hasConnected = true
 
 	SetGameState( eGameState.Playing )
@@ -131,19 +129,15 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 	foreach( cb in svGlobal.onClientConnectedCallbacks )
 		cb( player )
 
-
 	NotifyClientsOfConnection( player, 1 )
 
 	PlayerMatchState_Set(player, ePlayerMatchState.NORMAL)
 
   thread InitRespawnPlayer(player)
 
-
 	CodeCallback_OnClientReloadConnectionCompleted(player)
 
-
 	UpdateNetCounts()
-	
 }
 
 void function CodeCallback_OnPlayerRespawned( entity player )
@@ -177,12 +171,7 @@ void function OnPlayerDeathCallback( entity player, var damageInfo )
 	}
 	else {
 		// team is not dead, create deathbox with card
-
-
 	}
-
-
-
 }
 
 void function RespawnOnDie(entity player, var damageInfo) 

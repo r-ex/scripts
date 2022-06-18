@@ -38,107 +38,6 @@ array<asset> function WORKAROUND_GetAllCharacterFlavorAssets()
 	out.append( $"settings/itemflav/character/pathfinder.rpak" ) //
 	out.append( $"settings/itemflav/character/wraith.rpak" ) //
 
-	//
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-//
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-
 	return out
 }
 
@@ -149,7 +48,7 @@ array<asset> function WORKAROUND_GetAllLootMainWeaponFlavorAssets()
 	//
 	array<asset> out = []
 
-	//
+	// shipping weapons
 	out.append( $"settings/itemflav/loot/main_weapon/alternator.rpak" )
 	out.append( $"settings/itemflav/loot/main_weapon/autopistol.rpak" )
 	out.append( $"settings/itemflav/loot/main_weapon/devotion.rpak" )
@@ -171,41 +70,6 @@ array<asset> function WORKAROUND_GetAllLootMainWeaponFlavorAssets()
 	out.append( $"settings/itemflav/loot/main_weapon/wingman.rpak" )
 	out.append( $"settings/itemflav/loot/main_weapon/energy_ar.rpak" )
 	out.append( $"settings/itemflav/loot/main_weapon/lstar.rpak" )
-
-	//
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
-	#if false
-
-#endif
 
 	return out
 }
