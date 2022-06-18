@@ -141,7 +141,6 @@ void function CodeCallback_OnClientConnectionCompleted( entity player )
 
 	CodeCallback_OnClientReloadConnectionCompleted(player)
 
-	// DEV_PDataInitForPlayer( player ) // this doesn't fully work as persistent data is never ready
 
 	UpdateNetCounts()
 	
@@ -268,9 +267,7 @@ void function InitRespawnPlayer(entity player)
 		// todo: just reset the inventory before respawning
 		try {
 			player.GiveWeapon( "mp_weapon_rspn101", WEAPON_INVENTORY_SLOT_ANY )
-			player.GiveWeapon( "mp_weapon_wraith_kunai_primary", WEAPON_INVENTORY_SLOT_PRIMARY_2 )
 			GivePassive( player, ePassives.PAS_OCTANE )
-			player.GiveOffhandWeapon( "melee_wraith_kunai", OFFHAND_MELEE )
 			player.GiveOffhandWeapon( "mp_weapon_grenade_bangalore", OFFHAND_SPECIAL )
 			player.GiveOffhandWeapon( "mp_ability_care_package", OFFHAND_INVENTORY )
 			player.GiveOffhandWeapon( CONSUMABLE_WEAPON_NAME, OFFHAND_SLOT_FOR_CONSUMABLES )
@@ -289,23 +286,6 @@ void function InitRespawnPlayer(entity player)
 
 
 	UpdateNetCounts()
-}
-
-void function DEV_PDataInitForPlayer( entity player )
-{
-	player.SetPersistentVar( "loadouts.character_selection", 827049897 )
-
-	array< ItemFlavor > characters = GetAllCharacters()
-	foreach ( ItemFlavor character in characters )
-	{
-		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].execution", 0)
-		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].intro_quip", 0 )
-		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].meleeskin", 0 )
-		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].skin", 1644844869 )
-		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].gcard_badge_0", 0 )
-		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].gcard_badge_0_tier", 0 )
-		player.SetPersistentVar( "character_loadouts[" + ItemFlavor_GetGUIDString( character ) + "].gcard_badge_1", 97219464 )
-	}
 }
 
 void function UpdateNetCounts()
