@@ -656,7 +656,7 @@ void function SetupDevCommand( string label, string command )
 {
 	DevCommand cmd
 	cmd.label = label
-	cmd.command = StringReplace( command, "\"", "'" )
+	cmd.command = command
 
 	file.devCommands.append( cmd )
 	if ( file.initializingCodeDevMenu )
